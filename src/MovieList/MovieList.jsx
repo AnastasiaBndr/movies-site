@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectPage,
   selectTotalPages,
-  selectIsFetching,
 } from '../redux/trands/trandingSelectors';
 
 import {
