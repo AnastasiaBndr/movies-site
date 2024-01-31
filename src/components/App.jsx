@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { CirclesWithBar } from 'react-loader-spinner';
 
 import Header from 'Header';
@@ -10,7 +10,7 @@ import Search from 'Search';
 import { useSelector } from 'react-redux';
 import { selectMovies } from '../redux/trands/trandingSelectors';
 
-// const CurrentMoviePageLazy = lazy(() => import('CurrentMoviePage'));
+const CurrentMoviePageLazy = lazy(() => import('CurrentMoviePage'));
 
 // export default function App() {
 //   const [movies, setMovies] = useState([]);
@@ -268,6 +268,11 @@ import { selectMovies } from '../redux/trands/trandingSelectors';
 
 export default function App() {
   const trandingMovies = useSelector(selectMovies);
+  const [currentMovie, setCurrentMovie] = useState({});
+  const chooseMovieClick = async movie => {
+    await localStorage.setItem('current_movie', JSON.stringify(movie));
+    await setCurrentMovie(movie);
+  };
   return (
     <Suspense
       fallback={
@@ -291,8 +296,20 @@ export default function App() {
     >
       <Header />
       <Routes>
-        <Route path="/" element={<MovieList movies={trandingMovies} />} />
+        <Route
+          path="/"
+          element={
+            <MovieList
+              movies={trandingMovies}
+              chooseMovieClick={chooseMovieClick}
+            />
+          }
+        />
         <Route path="search" element={<Search />}></Route>
+        <Route
+          path="movies/:id"
+          element={<CurrentMoviePageLazy movie={currentMovie} />}
+        ></Route>
       </Routes>
     </Suspense>
   );

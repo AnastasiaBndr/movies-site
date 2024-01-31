@@ -34,13 +34,15 @@ export const BackNextButtons = styled.button`
   outline: inherit;
   background-color: #222;
   border-radius: 20px;
+  margin:2px;
 
   transition: color 0.2s ease;
   transition: background-color 0.2s ease;
 
-    width: 50px;
-  height: 40px;
+    width: ${props=>props.$primary ? "30px" :"50px"};
+  height: ${props=>props.$primary ? "30px" :"40px"};
   display: block;
+  margin-top:${props=>props.$primary ? "5px" :"0"};
 
   &:hover,&:focus{
     color: #222;

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { trandingReducer } from './trands/trandsSlice';
+import { currentMovieReducer } from './currentMovie/currentMovieSlice';
 import {
   persistStore,
   FLUSH,
@@ -12,7 +13,8 @@ import {
 
 const store = configureStore({
     reducer: {
-        movie: trandingReducer,
+    movie: trandingReducer,
+    currentMovie:currentMovieReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

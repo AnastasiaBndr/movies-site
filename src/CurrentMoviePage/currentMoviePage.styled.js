@@ -9,7 +9,7 @@ export const Description = styled.div` margin-left: 40px;
 `;
  
 export const MovieLargeImageItem = styled.img`
-height: 800px;`;
+height: 600px;`;
 
 export const MoviePageNavigation = styled.nav`display: flex;
   justify-content: space-between;

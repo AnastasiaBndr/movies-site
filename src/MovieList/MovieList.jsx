@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   selectPage,
   selectTotalPages,
+  selectIsFetching,
 } from '../redux/trands/trandingSelectors';
 
 import {
@@ -11,12 +12,11 @@ import {
   MoviesList,
   MoviesItem,
   BackNextButtons,
-  PageNumber,
   PaginationButtons,
 } from './MovieList.styled';
 import { getTrandingMovies } from '../redux/trands/trandsOperations';
 
-const MovieList = ({ movies }) => {
+const MovieList = ({ movies, chooseMovieClick }) => {
   const dispatch = useDispatch();
   const page = useSelector(selectPage);
   const totalPages = useSelector(selectTotalPages);
@@ -35,6 +35,10 @@ const MovieList = ({ movies }) => {
     dispatch(getTrandingMovies({ page: page + 1 }));
   };
 
+  const currentPageOnClick = e => {
+    dispatch(getTrandingMovies({ page: e.target.textContent }));
+  };
+
   const previousPageOnClick = () => {
     if (page > 1) dispatch(getTrandingMovies({ page: page - 1 }));
   };
@@ -47,11 +51,11 @@ const MovieList = ({ movies }) => {
       <MoviesList>
         {movies.map(movie => {
           return (
-            <MoviesItem key={movie.id} onClick={() => nextPageOnClick(movie)}>
+            <MoviesItem key={movie.id} onClick={() => chooseMovieClick(movie)}>
               <Link to={'movies/' + movie.id + ''} state={{ from: location }}>
                 <img
                   src={`https://image.tmdb.org/t/p/w200${movie.poster_path}?api_key=${process.env.KEY}`}
-                  alt=""
+                  alt={`${movie.title}`}
                 />
                 <h3>{movie.title ?? movie.name}</h3>
               </Link>
@@ -64,7 +68,59 @@ const MovieList = ({ movies }) => {
           <BackNextButtons type="button" onClick={previousPageOnClick}>
             {'<'}
           </BackNextButtons>
-          <PageNumber>{page}</PageNumber>
+          {page > 3 && (
+            <>
+              <BackNextButtons
+                $primary
+                type="button"
+                onClick={currentPageOnClick}
+              >
+                {page - 3}
+              </BackNextButtons>
+              <BackNextButtons
+                $primary
+                type="button"
+                onClick={currentPageOnClick}
+              >
+                {page - 2}
+              </BackNextButtons>
+              <BackNextButtons
+                $primary
+                type="button"
+                onClick={currentPageOnClick}
+              >
+                {page - 1}
+              </BackNextButtons>
+            </>
+          )}
+          <BackNextButtons type="button" onClick={currentPageOnClick}>
+            {page}
+          </BackNextButtons>
+          {page > 3 && (
+            <>
+              <BackNextButtons
+                $primary
+                type="button"
+                onClick={currentPageOnClick}
+              >
+                {page + 3}
+              </BackNextButtons>
+              <BackNextButtons
+                $primary
+                type="button"
+                onClick={currentPageOnClick}
+              >
+                {page + 2}
+              </BackNextButtons>
+              <BackNextButtons
+                $primary
+                type="button"
+                onClick={currentPageOnClick}
+              >
+                {page + 1}
+              </BackNextButtons>
+            </>
+          )}
           <BackNextButtons type="button" onClick={nextPageOnClick}>
             {'>'}
           </BackNextButtons>

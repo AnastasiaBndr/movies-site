@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation, NavLink } from 'react-router-dom';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { getMovieById } from '../redux/currentMovie/currentMovieOperations';
 import {
   MoviePageContainer,
   GoBackButton,
@@ -7,11 +8,23 @@ import {
   MoviePageNavigation,
   Description,
 } from './currentMoviePage.styled';
-import './styles.css';
+import Video from './videos';
+import { useDispatch } from 'react-redux';
 
 const CurrentMoviePage = ({ movie }) => {
   const location = useLocation();
   const backLinkLocationRef = useRef(location.state?.from ?? '/search');
+  const [currentMovie, setCurrentMovie] = useState(movie);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    var localMovie;
+    if (localStorage.getItem('current_movie') !== null) {
+      localMovie = JSON.parse(localStorage.getItem('current_movie'));
+      setCurrentMovie(localMovie);
+      dispatch(getMovieById(localMovie.id));
+    }
+  }, [setCurrentMovie, dispatch]);
 
   return (
     <>
@@ -20,22 +33,20 @@ const CurrentMoviePage = ({ movie }) => {
       </Link>
       <MoviePageContainer>
         <MovieLargeImageItem
-          src={movie.largeImageFullPath}
-          alt={movie.name ?? movie.title}
+          src={`https://image.tmdb.org/t/p/w500${currentMovie.poster_path}?api_key=${process.env.KEY}`}
+          alt={currentMovie.name ?? currentMovie.title}
         />
         <Description>
           <h1>
-            {movie.name ?? movie.title} /{' '}
-            {movie.original_name ?? movie.original_title}
+            {currentMovie.name ?? currentMovie.title} /{' '}
+            {currentMovie.original_name ?? currentMovie.original_title}
           </h1>
-          {console.log(movie)}
-          <p>{movie.overview}</p>
-          <p>Language: {movie.original_language}</p>
-          <p>First air date: {movie.first_air_date}</p>
-          <p>Country: {movie.origin_country}</p>
-          <p>Popularity: {movie.popularity}</p>
-          <p>Vote average: {movie.vote_average}</p>
-
+          <p>{currentMovie.overview}</p>
+          <p>Language: {currentMovie.original_language}</p>
+          <p>First air date: {currentMovie.first_air_date}</p>
+          <p>Country: {currentMovie.origin_country}</p>
+          <p>Popularity: {currentMovie.popularity}</p>
+          <p>Vote average: {currentMovie.vote_average}</p>
           <MoviePageNavigation>
             <NavLink className="movie-links-item" to={'cast'}>
               <h3>Cast</h3>
@@ -43,12 +54,9 @@ const CurrentMoviePage = ({ movie }) => {
             <NavLink className="movie-links-item" to={'reviews'}>
               <h3>Reviews</h3>
             </NavLink>
-            <NavLink className="movie-links-item" to={'videos'}>
-              <h3>Videos</h3>
-            </NavLink>
           </MoviePageNavigation>
-
           <Outlet />
+          <Video currentMovie={currentMovie}></Video>
         </Description>
       </MoviePageContainer>
     </>
