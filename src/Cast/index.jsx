@@ -1,68 +1,68 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import './styles.css';
 
 const Cast = ({ movie, apiComponent }) => {
-  const [fullMovieInfo, setFullMovieInfo] = useState(null);
+  // const [fullMovieInfo, setFullMovieInfo] = useState(null);
 
-  useEffect(() => {
-    async function fetchMovieInfo() {
-      if (movie.media_type === 'movie') {
-        const movieInfo = await apiComponent.fetchMoviesById(
-          movie.id,
-          apiComponent.links.details,
-          apiComponent.params.credits
-        );
+  // useEffect(() => {
+  //   async function fetchMovieInfo() {
+  //     if (movie.media_type === 'movie') {
+  //       const movieInfo = await apiComponent.fetchMoviesById(
+  //         movie.id,
+  //         apiComponent.links.details,
+  //         apiComponent.params.credits
+  //       );
 
-        const updatedCast = movieInfo.cast
-          .map(actor => {
-            if (actor.profile_path !== null) {
-              actor.ImageFullPath = `https://image.tmdb.org/t/p/w200${
-                actor.profile_path
-              }?api_key=${apiComponent.getkey()}`;
-            } else {
-              console.log(process.env.PUBLIC_URL);
-              actor.ImageFullPath =
-                'http://localhost:3000/goit-react-hw-05-movies/static/media/profile_image_not_found.d3395e8a7ba4b7bc3a15.jpg';
-            }
-            return actor;
-          })
-          .filter(actor => actor.profile_path !== null);
+  //       const updatedCast = movieInfo.cast
+  //         .map(actor => {
+  //           if (actor.profile_path !== null) {
+  //             actor.ImageFullPath = `https://image.tmdb.org/t/p/w200${
+  //               actor.profile_path
+  //             }?api_key=${apiComponent.getkey()}`;
+  //           } else {
+  //             console.log(process.env.PUBLIC_URL);
+  //             actor.ImageFullPath =
+  //               'http://localhost:3000/goit-react-hw-05-movies/static/media/profile_image_not_found.d3395e8a7ba4b7bc3a15.jpg';
+  //           }
+  //           return actor;
+  //         })
+  //         .filter(actor => actor.profile_path !== null);
 
-        movieInfo.cast = updatedCast;
+  //       movieInfo.cast = updatedCast;
 
-        setFullMovieInfo(movieInfo);
-        console.log(movieInfo);
-      } else if (movie.media_type === 'tv') {
-        const movieInfo = await apiComponent.fetchMoviesById(
-          movie.id,
-          apiComponent.links.seriesDetails,
-          apiComponent.params.credits
-        );
+  //       setFullMovieInfo(movieInfo);
+  //       console.log(movieInfo);
+  //     } else if (movie.media_type === 'tv') {
+  //       const movieInfo = await apiComponent.fetchMoviesById(
+  //         movie.id,
+  //         apiComponent.links.seriesDetails,
+  //         apiComponent.params.credits
+  //       );
 
-        const updatedCast = movieInfo.cast
-          .map(actor => {
-            if (actor.profile_path !== null) {
-              actor.ImageFullPath = `https://image.tmdb.org/t/p/w200${
-                actor.profile_path
-              }?api_key=${apiComponent.getkey()}`;
-            }
-            return actor;
-          })
-          .filter(actor => actor.profile_path !== null);
+  //       const updatedCast = movieInfo.cast
+  //         .map(actor => {
+  //           if (actor.profile_path !== null) {
+  //             actor.ImageFullPath = `https://image.tmdb.org/t/p/w200${
+  //               actor.profile_path
+  //             }?api_key=${apiComponent.getkey()}`;
+  //           }
+  //           return actor;
+  //         })
+  //         .filter(actor => actor.profile_path !== null);
 
-        movieInfo.cast = updatedCast;
+  //       movieInfo.cast = updatedCast;
 
-        setFullMovieInfo(movieInfo);
-        console.log(movieInfo);
-      }
-    }
+  //       setFullMovieInfo(movieInfo);
+  //       console.log(movieInfo);
+  //     }
+  //   }
 
-    fetchMovieInfo();
-  }, [apiComponent, movie.id, movie.media_type]);
+  //   fetchMovieInfo();
+  // }, [apiComponent, movie.id, movie.media_type]);
 
   return (
     <>
-      {fullMovieInfo ? (
+      {/* {fullMovieInfo ? (
         <ul className="cast-container">
           {fullMovieInfo.cast.map(actor => {
             return (
@@ -81,7 +81,7 @@ const Cast = ({ movie, apiComponent }) => {
         </ul>
       ) : (
         <p>No cast info(</p>
-      )}
+      )} */}
     </>
   );
 };

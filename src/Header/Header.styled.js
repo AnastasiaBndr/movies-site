@@ -9,7 +9,8 @@ export const MainHeader = styled.header`
   background-color: #222;
   border-bottom: 6px solid coral;
   font-family: 'Dosis', sans-serif;
-  font-size: 18px;`;
+  font-size: 18px;
+  z-index:2;`;
 
 export const NavBar = styled.ul`
     display: flex;

@@ -5,6 +5,7 @@ import { lazy, Suspense } from 'react';
 import { CirclesWithBar } from 'react-loader-spinner';
 
 import Header from 'Header';
+import Cast from 'Cast';
 import MovieList from 'MovieList';
 import Search from 'Search';
 import { useSelector } from 'react-redux';
@@ -309,7 +310,9 @@ export default function App() {
         <Route
           path="movies/:id"
           element={<CurrentMoviePageLazy movie={currentMovie} />}
-        ></Route>
+        >
+          <Route path="cast" element={<Cast></Cast>}></Route>
+        </Route>
       </Routes>
     </Suspense>
   );

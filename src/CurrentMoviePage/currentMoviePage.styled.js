@@ -36,3 +36,17 @@ margin-top: 100px;
   color: #222;
   background-color: coral;
 }`;
+
+export const Timer = styled.div`
+    position:absolute;
+    width:50px;
+    height:50px; 
+    border:0.5vh  solid #222;
+    border-radius:50%;
+
+
+    z-index:1;
+`;
+
+export const PageContainer = styled.div`
+overflow:hidden;`;
