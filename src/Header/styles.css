@@ -1,15 +1,27 @@
 @import url(https://fonts.googleapis.com/css2?family=Dosis:wght@400;500&display=swap);
 
-
-nav-element:focus, .nav-element:hover, .nav-element.active {
+nav-element:focus,
+.nav-element:hover,
+.nav-element.active {
   color: aqua;
 }
 
-.nav-element{
+.nav-element {
   color: pink;
   font: inherit;
   cursor: pointer;
   font-family: 'Dosis', sans-serif;
 
   transition: color 0.4s ease;
+}
+
+.watch-now {
+  color: coral;
+  font-family: 'Dosis', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

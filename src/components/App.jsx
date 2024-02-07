@@ -295,7 +295,7 @@ export default function App() {
         />
       }
     >
-      <Header />
+      <Header chooseMovieClick={chooseMovieClick} />
       <Routes>
         <Route
           path="/"

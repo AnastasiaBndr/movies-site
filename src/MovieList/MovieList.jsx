@@ -12,6 +12,7 @@ import {
   MoviesItem,
   BackNextButtons,
   PaginationButtons,
+  ImageContainer,
 } from './MovieList.styled';
 import { getTrandingMovies } from '../redux/trands/trandsOperations';
 
@@ -52,11 +53,14 @@ const MovieList = ({ movies, chooseMovieClick }) => {
           return (
             <MoviesItem key={movie.id} onClick={() => chooseMovieClick(movie)}>
               <Link to={'movies/' + movie.id + ''} state={{ from: location }}>
-                <img
-                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}?api_key=${process.env.KEY}`}
-                  alt={`${movie.title}`}
-                />
-                <h3>{movie.title ?? movie.name}</h3>
+                <ImageContainer>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w200${movie.poster_path}?api_key=${process.env.KEY}`}
+                    alt={`${movie.title}`}
+                  />
+                  <h3>{movie.title ?? movie.name}</h3>
+                </ImageContainer>
+
               </Link>
             </MoviesItem>
           );
