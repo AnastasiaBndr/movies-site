@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { MainHeader, NavBar, HeaderItem, Hero, WatchNowLabel, HeroTitle, WatchNow, PlayIcon, HeroDescriptionContainer } from './Header.styled';
+import { MainHeader, NavBar, HeaderItem, Hero, HeroTitle, WatchNow, PlayIcon, HeroDescriptionContainer } from './Header.styled';
 import './styles.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
