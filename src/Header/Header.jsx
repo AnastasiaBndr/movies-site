@@ -16,7 +16,6 @@ const Header = ({ chooseMovieClick }) => {
     if (movies)
       setHeroImage(movies[Math.trunc(Math.random() * 20)])
   }, [movies])
-  console.log(heroImage);
   return (
     <>
       <Hero>

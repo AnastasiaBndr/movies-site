@@ -1,37 +1,54 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getTrandingMovies } from './trandsOperations';
+import { getTrandingMovies, getGenresMovies } from './trandsOperations';
 
 const initialState = {
-    page: 1,
-    results:null,
-     isLoading: false,
-    isFetching: false,
-    totalPages: 0,
+  page: 1,
+  results: null,
+  isLoading: false,
+  isFetching: false,
+  totalPages: 0,
   error: null,
-}
+  genres: null,
+};
 
 const trandingsSlice = createSlice({
-    name: 'movie',
-    initialState,
-    extraReducers: builder => {
-        builder.addCase(getTrandingMovies.fulfilled, (state, action) => {
-            state.page = action.payload.page;
-            state.totalPages = action.payload.total_pages;
-            state.results = action.payload.results;
+  name: 'movie',
+  initialState,
+  extraReducers: builder => {
+    builder.addCase(getTrandingMovies.fulfilled, (state, action) => {
+      state.page = action.payload.page;
+      state.totalPages = action.payload.total_pages;
+      state.results = action.payload.results;
 
-            state.isLoading = false;
-            state.isFetching = false;
-        });
+      state.isLoading = false;
+      state.isFetching = false;
+    });
 
-        builder.addCase(getTrandingMovies.pending, (state, action) => {
-            state.isLoading = true;
-            state.isFetching = true;
-        });
+    builder.addCase(getTrandingMovies.pending, (state, action) => {
+      state.isLoading = true;
+      state.isFetching = true;
+    });
 
-        builder.addCase(getTrandingMovies.rejected, (state, action) => {
-            state.error = action.payload.error;
-        });
-    }
-})
+    builder.addCase(getTrandingMovies.rejected, (state, action) => {
+      state.error = action.payload.error;
+    });
+
+    builder.addCase(getGenresMovies.fulfilled, (state, action) => {
+      state.genres = action.payload.genres;
+
+      state.isLoading = false;
+      state.isFetching = false;
+    });
+
+    builder.addCase(getGenresMovies.pending, (state, action) => {
+      state.isLoading = true;
+      state.isFetching = true;
+    });
+
+    builder.addCase(getGenresMovies.rejected, (state, action) => {
+      state.error = action.payload.error;
+    });
+  },
+});
 
 export const trandingReducer = trandingsSlice.reducer;

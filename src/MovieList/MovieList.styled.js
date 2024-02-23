@@ -91,3 +91,35 @@ export const ImageContainer = styled.div`
     margin: 0;
   }
 `;
+
+export const GenresList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding:left:40px;
+`;
+export const GenresListItem = styled.li`
+  display: block;
+  background: none;
+  color: pink;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  background-color: #222;
+  border-radius: 20px;
+  padding: 15px;
+
+  transition: color 0.2s ease;
+  transition: background-color 0.2s ease;
+  margin-top: 20px;
+
+  &:hover,
+  &:focus {
+    color: #222;
+    background-color: coral;
+  }
+  list-style-type: none;
+  margin: 5px;
+`;
