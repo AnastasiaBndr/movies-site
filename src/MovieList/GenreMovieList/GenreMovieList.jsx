@@ -1,22 +1,15 @@
-import { MoviesList, MoviesItem, ImageContainer } from '../MovieList.styled';
+import { MoviesList } from '../MovieList.styled';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  getTrandingMovies,
-  getGenresMovies,
-} from '../../redux/trands/trandsOperations';
-import {
-  selectMovies,
-  selectTotalPages,
-  selectPage,
-} from '../../redux/trands/trandingSelectors';
-import { Link } from 'react-router-dom';
+import { getTrandingMovies } from '../../redux/trands/trandsOperations';
+import { selectMovies, selectPage } from '../../redux/trands/trandingSelectors';
+//import { Link } from 'react-router-dom';
 
 const GenreMovieList = ({ pageTitle, chooseMovieClick, location }) => {
   const [moviesListByGenre, setMoviesListByGenre] = useState([]);
   const dispatchedMovies = useSelector(selectMovies);
   const dispatchedPage = useSelector(selectPage);
-  const [page, setPage] = useState(1);
+  //const [page, setPage] = useState(1);
   const [tempFromDispatchedPage, setTempFromDispatchedPage] = useState(1);
   const dispatch = useDispatch();
 
@@ -67,25 +60,24 @@ const GenreMovieList = ({ pageTitle, chooseMovieClick, location }) => {
     }
     console.log(moviesListByGenre[page - 1].movies.length < 20);
 
-    // while (moviesListByGenre[page - 1].movies.length < 20) {
+    while (moviesListByGenre[page - 1].movies.length < 20) {
+      setTempFromDispatchedPage(dispatchedPage + 1);
+      dispatch(getTrandingMovies({ page: tempFromDispatchedPage }));
+      console.log(dispatchedMovies);
 
-    // setTempFromDispatchedPage(dispatchedPage + 1);
-    // dispatch(getTrandingMovies({ page: tempFromDispatchedPage }));
-    // console.log(dispatchedMovies);
-
-    //   setMoviesListByGenre({
-    //     page: page,
-    //     movies: {
-    //       ...moviesListByGenre[page - 1].movies.concat(
-    //         dispatchedMovies.filter(movie => {
-    //           if (movie.genre_ids)
-    //             return movie.genre_ids.includes(pageTitle.id);
-    //           else return movie.genres.includes(pageTitle.id);
-    //         })
-    //       ),
-    //     },
-    //   });
-    // }
+      setMoviesListByGenre({
+        page: page,
+        movies: {
+          ...moviesListByGenre[page - 1].movies.concat(
+            dispatchedMovies.filter(movie => {
+              if (movie.genre_ids)
+                return movie.genre_ids.includes(pageTitle.id);
+              else return movie.genres.includes(pageTitle.id);
+            })
+          ),
+        },
+      });
+    }
   };
 
   FilteringMovies(1);

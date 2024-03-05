@@ -5,7 +5,7 @@ import {
   selectPage,
   selectTotalPages,
   selectGenres,
-  selectMovies,
+  //selectMovies,
 } from '../redux/trands/trandingSelectors';
 import {
   MoviesListContainer,
@@ -17,7 +17,7 @@ import {
   GenresList,
   GenresListItem,
 } from './MovieList.styled';
-import GenreMovieList from './GenreMovieList';
+//import GenreMovieList from './GenreMovieList';
 import {
   getTrandingMovies,
   getGenresMovies,
