@@ -1,23 +1,19 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { CirclesWithBar } from 'react-loader-spinner';
+import { MovieItem, PaginationButtons } from 'components/Scheme/schemes';
 import {
   selectPage,
   selectTotalPages,
   selectGenres,
-  //selectMovies,
+  selectIsFetching
 } from '../redux/trands/trandingSelectors';
 import {
   MoviesListContainer,
-  MoviesList,
-  MoviesItem,
-  BackNextButtons,
-  PaginationButtons,
-  ImageContainer,
   GenresList,
   GenresListItem,
 } from './MovieList.styled';
-//import GenreMovieList from './GenreMovieList';
 import {
   getTrandingMovies,
   getGenresMovies,
@@ -28,11 +24,11 @@ const MovieList = ({ movies, chooseMovieClick }) => {
   const page = useSelector(selectPage);
   const totalPages = useSelector(selectTotalPages);
   const genres = useSelector(selectGenres);
+  const isLoading = useSelector(selectIsFetching);
   const [pageTitle, setPageTitle] = useState(null);
   const [nextPage, setnextPage] = useState(false);
+  const [moviesByGenre, setMoviesByGenre] = useState([]);
 
-  const [moviesListByGenre, setMoviesListByGenre] = useState([]);
-  const [tempFromDispatchedPage, setTempFromDispatchedPage] = useState(1);
 
   useEffect(() => {
     dispatch(getTrandingMovies({ page: page }));
@@ -56,42 +52,31 @@ const MovieList = ({ movies, chooseMovieClick }) => {
   };
 
   const chooseGenreClick = pageTitle => {
-    setPageTitle(pageTitle);
-    setTempFromDispatchedPage(1);
-    FilteringMovies(1, pageTitle);
+    setMoviesByGenre([]); setPageTitle(pageTitle);
+
+    FilteringMovies(pageTitle);
+
   };
 
-  const FilteringMovies = (thisPage, pageTitle) => {
-    if (moviesListByGenre.filter(e => e.page === thisPage).length === 0) {
-      moviesListByGenre.push({
-        page: thisPage,
-        movies: movies.filter(movie => {
-          if (movie.genre_ids) return movie.genre_ids.includes(pageTitle.id);
-          else return movie.genres.includes(pageTitle.id);
-        }),
+  const FilteringMovies = async (pageTitle) => {
+    const allMovies = [];
+    let pageTemp = 1;
+    while (allMovies.length <= 20 && pageTemp <= 30) {
+      const response = await dispatch(getTrandingMovies({ page: pageTemp }));
+      const moviesForAdding = response.payload.results;
+      const filteredMovies = moviesForAdding.filter(movie => {
+        if (movie.genre_ids) return movie.genre_ids.includes(pageTitle.id);
+        else return movie.genres.includes(pageTitle.id);
       });
+      allMovies.push(...filteredMovies);
+      pageTemp++;
+      if (allMovies.length >= 20) break;
     }
 
-    // while (moviesListByGenre[page - 1].movies.length < 20) {
-    setTempFromDispatchedPage(page + 1);
-    dispatch(getTrandingMovies({ page: tempFromDispatchedPage }));
-    const moviesForAdding = movies.filter(movie => {
-      if (movie.genre_ids) return movie.genre_ids.includes(pageTitle.id);
-      else return movie.genres.includes(pageTitle.id);
-    });
-    const updatedMovies = moviesListByGenre.map(page => {
-      if (page.page === thisPage) {
-        return {
-          page: thisPage,
-          movies: { ...page.movies, ...moviesForAdding },
-        };
-      }
-      return page;
-    });
-    setMoviesListByGenre(updatedMovies);
-    console.log(updatedMovies);
-    //}
+    setMoviesByGenre(allMovies);
   };
+
+
 
   const location = useLocation();
   if (movies === null) movies = [];
@@ -103,102 +88,60 @@ const MovieList = ({ movies, chooseMovieClick }) => {
       {genres && (
         <GenresList>
           {genres.map(genre => {
-            return (
-              <GenresListItem
-                key={genre.id}
-                onClick={() => chooseGenreClick(genre)}
-              >
-                {genre.name}
-              </GenresListItem>
-            );
+            if (genre.name === "Documentary") return (null)
+            else
+              return (
+                <GenresListItem
+                  key={genre.id}
+                  onClick={() => chooseGenreClick(genre)}
+                >
+                  {genre.name}
+                </GenresListItem>
+              );
           })}
         </GenresList>
       )}
       {!pageTitle && (
-        <MoviesList>
-          {movies.map(movie => {
-            return (
-              <MoviesItem
-                key={movie.id}
-                onClick={() => chooseMovieClick(movie)}
-              >
-                <Link to={'movies/' + movie.id + ''} state={{ from: location }}>
-                  <ImageContainer>
-                    <img
-                      src={`https://image.tmdb.org/t/p/w200${movie.poster_path}?api_key=${process.env.KEY}`}
-                      alt={`${movie.title}`}
-                    />
-                    <h3>{movie.title ?? movie.name}</h3>
-                  </ImageContainer>
-                </Link>
-              </MoviesItem>
-            );
-          })}
-        </MoviesList>
+        <MovieItem
+          movies={movies}
+          chooseMovieClick={chooseMovieClick}
+          location={location}
+        />
+      )}
+      {pageTitle && isLoading && (
+        <CirclesWithBar
+          height="100"
+          width="100"
+          color="#4fa94d"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          outerCircleColor=""
+          innerCircleColor=""
+          barColor=""
+          ariaLabel="circles-with-bar-loading"
+          position="absolute"
+          top="50%"
+          left="50%"
+          style={{ transform: 'translate(-50%, -50%)' }}
+        />
+      )}
+
+      {pageTitle && (
+        <MovieItem
+          movies={moviesByGenre}
+          chooseMovieClick={chooseMovieClick}
+          location={location}
+        />
       )}
 
       {!pageTitle && nextPage && (
-        <PaginationButtons>
-          <BackNextButtons type="button" onClick={previousPageOnClick}>
-            {'<'}
-          </BackNextButtons>
-          {page > 3 && (
-            <>
-              <BackNextButtons
-                $primary
-                type="button"
-                onClick={currentPageOnClick}
-              >
-                {page - 3}
-              </BackNextButtons>
-              <BackNextButtons
-                $primary
-                type="button"
-                onClick={currentPageOnClick}
-              >
-                {page - 2}
-              </BackNextButtons>
-              <BackNextButtons
-                $primary
-                type="button"
-                onClick={currentPageOnClick}
-              >
-                {page - 1}
-              </BackNextButtons>
-            </>
-          )}
-          <BackNextButtons type="button" onClick={currentPageOnClick}>
-            {page}
-          </BackNextButtons>
-          {page > 3 && (
-            <>
-              <BackNextButtons
-                $primary
-                type="button"
-                onClick={currentPageOnClick}
-              >
-                {page + 3}
-              </BackNextButtons>
-              <BackNextButtons
-                $primary
-                type="button"
-                onClick={currentPageOnClick}
-              >
-                {page + 2}
-              </BackNextButtons>
-              <BackNextButtons
-                $primary
-                type="button"
-                onClick={currentPageOnClick}
-              >
-                {page + 1}
-              </BackNextButtons>
-            </>
-          )}
-          <BackNextButtons type="button" onClick={nextPageOnClick}>
-            {'>'}
-          </BackNextButtons>
-        </PaginationButtons>
+        <PaginationButtons
+
+          previousPageOnClick={previousPageOnClick}
+          currentPageOnClick={currentPageOnClick}
+          page={page}
+          nextPageOnClick={nextPageOnClick} />
       )}
     </MoviesListContainer>
   );
