@@ -1,13 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  MoviesListContainer,
-  MoviesList,
   MoviesItem,
   BackNextButtons,
   ImageContainer,
-  GenresList,
-  GenresListItem,
 } from '../../MovieList/MovieList.styled';
 
 const MovieItem = ({ movies, chooseMovieClick, location }) => {
