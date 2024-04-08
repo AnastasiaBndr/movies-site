@@ -4,6 +4,7 @@ import {
   MoviesItem,
   BackNextButtons,
   ImageContainer,
+  MoviesList,
 } from '../../MovieList/MovieList.styled';
 
 const MovieItem = ({ movies, chooseMovieClick, location }) => {
