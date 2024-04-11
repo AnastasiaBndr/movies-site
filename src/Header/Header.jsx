@@ -1,16 +1,18 @@
 import { NavLink } from 'react-router-dom';
-import { MainHeader, NavBar, HeaderItem, Hero, HeroTitle, WatchNow, PlayIcon, HeroDescriptionContainer } from './Header.styled';
+import { MainHeader, NavBar, Hero, HeroTitle, WatchNow, PlayIcon, HeroDescriptionContainer, GoBackButton } from './Header.styled';
 import './styles.css';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectMovies } from '../redux/trands/trandingSelectors';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useRef } from 'react';
 
 const Header = ({ chooseMovieClick }) => {
   const movies = useSelector(selectMovies);
-  const [heroImage, setHeroImage] = useState({});
   const location = useLocation();
+  const backLinkLocationRef = useRef(location.state?.from ?? '/');
+  const [heroImage, setHeroImage] = useState({});
 
   useEffect(() => {
     if (movies)
@@ -40,18 +42,14 @@ const Header = ({ chooseMovieClick }) => {
         <img src={`https://image.tmdb.org/t/p/w500${heroImage.poster_path}?api_key=${process.env.KEY}`} alt={heroImage.name ?? heroImage.title} />
       </Hero>
       <MainHeader>
+        {location.pathname === '/' ? <></> : <Link to={backLinkLocationRef.current}>
+          <GoBackButton>Go back</GoBackButton>
+        </Link>}
         <nav>
           <NavBar>
-            <HeaderItem>
-              <NavLink className="nav-element" to="/">
-                Popular
-              </NavLink>
-            </HeaderItem>
-            <HeaderItem>
-              <NavLink className="nav-element" to="/search">
-                Search
-              </NavLink>
-            </HeaderItem>
+            <NavLink className="nav-element" to="/">
+              Popular
+            </NavLink>
           </NavBar>
         </nav>
       </MainHeader>

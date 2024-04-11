@@ -1,4 +1,3 @@
-
 export const selectVideos = state => state.currentMovie.videos;
 export const selectCast = state => state.currentMovie.cast;
 export const selectDetails = state => state.currentMovie.details;

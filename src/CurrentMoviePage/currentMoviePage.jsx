@@ -1,60 +1,63 @@
-import { Outlet, Link, useLocation, NavLink } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { Outlet, NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { getDetails } from '../redux/currentMovie/currentMovieOperations';
 import { selectDetails } from '../redux/currentMovie/currentMovieSelectors';
 import {
   MoviePageContainer,
-  GoBackButton,
+  MovieTitle,
   MovieLargeImageItem,
   MoviePageNavigation,
   Description,
   Timer,
   PageContainer,
+  MovieImageWrapper,
+  GenresItem,
+  GenresContainer
 } from './currentMoviePage.styled';
 import Video from './videos';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CurrentMoviePage = ({ movie }) => {
-  const location = useLocation();
-  const backLinkLocationRef = useRef(location.state?.from ?? '/search');
-  const [currentMovie, setCurrentMovie] = useState(movie);
   const dispatch = useDispatch();
   const details = useSelector(selectDetails);
+  const [currentMovie, setCurrentMovie] = useState(movie);
 
   useEffect(() => {
     var localMovie;
     if (localStorage.getItem('current_movie') !== null) {
       localMovie = JSON.parse(localStorage.getItem('current_movie'));
-      setCurrentMovie(localMovie);
-
       if (localMovie.media_type === 'tv')
         dispatch(getDetails({ id: localMovie.id, type: 'tv' }));
       else if (localMovie.media_type === 'movie')
         dispatch(getDetails({ id: localMovie.id, type: 'movie' }));
-    }
-  }, [setCurrentMovie, dispatch]);
-
-  console.log(details);
+      setCurrentMovie(localMovie);
+    } else {
+      if (movie.media_type === 'tv')
+        dispatch(getDetails({ id: movie.id, type: 'tv' }));
+      else if (movie.media_type === 'movie')
+        dispatch(getDetails({ id: movie.id, type: 'movie' }));
+    };
+  }, [dispatch, movie]);
 
   return (
-    <PageContainer>
-      <Link to={backLinkLocationRef.current}>
-        <GoBackButton>Go back</GoBackButton>
-      </Link>
+
+    <PageContainer> {console.log(details)}
       <MoviePageContainer>
-        <div>
-          <Timer>{currentMovie.vote_average}</Timer>
+        <MovieImageWrapper>
+          <Timer circlepersentage={currentMovie.vote_average}>{currentMovie.vote_average}</Timer>
           <MovieLargeImageItem
             src={`https://image.tmdb.org/t/p/w500${currentMovie.poster_path}?api_key=${process.env.KEY}`}
             alt={currentMovie.name ?? currentMovie.title}
           />
-        </div>
+        </MovieImageWrapper>
 
         <Description>
-          <h1>
-            {currentMovie.name ?? currentMovie.title} /{' '}
-            {currentMovie.original_name ?? currentMovie.original_title}
-          </h1>
+          <MovieTitle>
+            {currentMovie.name ?? currentMovie.title}
+          </MovieTitle>
+          {details && <GenresContainer>
+            {details.genres.map(genre => { return (<GenresItem key={genre.id}>{genre.name}</GenresItem>) })}
+          </GenresContainer>}
           <p>{currentMovie.overview}</p>
           <p>Language: {currentMovie.original_language}</p>
           <p>First air date: {currentMovie.first_air_date}</p>
@@ -73,6 +76,7 @@ const CurrentMoviePage = ({ movie }) => {
           <Video currentMovie={currentMovie}></Video>
         </Description>
       </MoviePageContainer>
+      <button>Show similar</button>
     </PageContainer>
   );
 };

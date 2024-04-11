@@ -37,3 +37,18 @@ export const getGenresMovies = createAsyncThunk(
     }
   }
 );
+
+export const getFilteredMoviesByGenre = createAsyncThunk(
+  'movies/filteredByGenre',
+  async (data, thunkAPI) => {
+    try {
+      const { page, with_genres } = data;
+      const res = await axios.get(
+        `/3/discover/movie?page=${page}&sort_by=popularity.desc&with_genres=${with_genres}`
+      );
+      return res.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);

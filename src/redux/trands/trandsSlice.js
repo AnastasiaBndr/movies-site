@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getTrandingMovies, getGenresMovies } from './trandsOperations';
+import {
+  getTrandingMovies,
+  getGenresMovies,
+  getFilteredMoviesByGenre,
+} from './trandsOperations';
 
 const initialState = {
   page: 1,
@@ -46,6 +50,24 @@ const trandingsSlice = createSlice({
     });
 
     builder.addCase(getGenresMovies.rejected, (state, action) => {
+      state.error = action.payload.error;
+    });
+
+    builder.addCase(getFilteredMoviesByGenre.fulfilled, (state, action) => {
+      state.page = action.payload.page;
+      state.totalPages = action.payload.total_pages;
+      state.results = action.payload.results;
+
+      state.isLoading = false;
+      state.isFetching = false;
+    });
+
+    builder.addCase(getFilteredMoviesByGenre.pending, (state, action) => {
+      state.isLoading = true;
+      state.isFetching = true;
+    });
+
+    builder.addCase(getFilteredMoviesByGenre.rejected, (state, action) => {
       state.error = action.payload.error;
     });
   },

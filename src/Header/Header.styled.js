@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 export const MainHeader = styled.header`
   background-color: #222;
+  box-sizing: border-box;
+  padding: 0 30px 0 30px;
   height: 100px;
   border-top: 3px solid coral;
   border-bottom: 3px solid coral;
@@ -9,12 +11,14 @@ export const MainHeader = styled.header`
   font-size: 18px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   position: sticky;
   top: 0;
   margin-block-start: 140px;
   width: 100%;
-  z-index: 999;
+  z-index: 100;
+
+  margin-bottom: 40px;
 
   @media screen and (min-width: 768px) {
   }
@@ -47,14 +51,6 @@ export const Button = styled.button`
   }
 
   transition: color 0.4s ease;
-`;
-
-export const HeaderItem = styled.li`
-  list-style-type: none;
-
-  &:first-child {
-    margin-right: 40px;
-  }
 `;
 
 export const Hero = styled.div`
@@ -116,4 +112,28 @@ export const HeroDescriptionContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const GoBackButton = styled.button`
+  display: block;
+  border: 1px solid coral;
+  z-index: 999;
+  background: none;
+  color: pink;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  border-radius: 20px;
+  padding: 15px;
+
+  transition: color 0.2s ease;
+  transition: background-color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    color: #222;
+    background-color: coral;
+  }
 `;

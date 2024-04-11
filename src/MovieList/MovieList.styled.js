@@ -4,6 +4,8 @@ export const MoviesListContainer = styled.div`
   justify-content: center;
   margin-block-start: 40px;
   width: 100%;
+  box-sizing: border-box;
+  padding: 0 30px 0 30px;
 `;
 
 export const MoviesListTitle = styled.h1`
@@ -96,7 +98,7 @@ export const GenresList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding:left:40px;
+  padding-inline-start: 0;
 `;
 export const GenresListItem = styled.li`
   display: block;
