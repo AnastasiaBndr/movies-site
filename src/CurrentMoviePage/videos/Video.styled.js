@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 export const VideoFrame = styled.iframe`
 
-    width:90%;
-    height:400px;
+    width:100%-20px;
+    height:350px;
     margin-top:0;
+    display:border-box;
 
     border: 10px solid #222;
     border-radius:10px;

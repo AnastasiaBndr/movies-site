@@ -2,10 +2,14 @@ import styled from 'styled-components';
 
 export const MoviePageContainer = styled.div`
   margin-top: 20px;
-  
-
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   @media screen and (min-width: 768px) {
-    display:flex;
+    align-items:start;
+    flex-direction:row;
   }
 
   @media screen and (min-width: 1440px) {
@@ -14,6 +18,12 @@ export const MoviePageContainer = styled.div`
 `;
 
 export const Description = styled.div`
+  margin-top: 20px;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
 @media screen and (min-width: 768px) {
   margin-left: 40px;
   }
@@ -24,7 +34,11 @@ export const Description = styled.div`
 `;
 
 export const MovieLargeImageItem = styled.img`
+
+@media screen and (min-width: 768px) {
   height: 600px;
+  }
+  height: 550px;
   border-radius: 2%;
 
 `;
@@ -37,13 +51,13 @@ export const MoviePageNavigation = styled.nav`
 
 export const Timer = styled.div`
   position: absolute;
-  top: 20px;
-  left: 310px;
+  top: 30px;
+  left: 280px;
   display: flex;
   width: 60px;
   height: 60px;
   font-size: 20px;
-  border: 0.3vh solid transparent;
+  border: 3px solid transparent;
   border-radius: 50%;
   color: coral;
   justify-content: center;
@@ -57,6 +71,12 @@ export const Timer = styled.div`
       border-box;
 
   z-index: 1;
+
+  @media screen and (min-width: 768px) {
+  top: 20px;
+  left: 310px;
+  border: 2px solid transparent;
+  }
 `;
 
 export const MovieImageWrapper = styled.div`
