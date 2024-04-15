@@ -28,7 +28,10 @@ const Header = ({ chooseMovieClick }) => {
   useEffect(() => {
     if (!localStorage.getItem('header_image')) {
       if (movies) {
-        const image = movies[Math.trunc(Math.random() * 20)];
+        var image = null;
+        while (!image || image.media_type === undefined || !image.media_type) {
+          image = movies[Math.trunc(Math.random() * 20)];
+        }
         setHeroImage(image);
         console.log(image + 'YOOOOOOOOOO');
         localStorage.setItem('header_image', JSON.stringify(image));

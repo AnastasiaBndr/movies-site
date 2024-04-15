@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const VideoFrame = styled.iframe`
+
     width:90%;
     height:400px;
     margin-top:0;
@@ -9,7 +10,6 @@ export const VideoFrame = styled.iframe`
     border-radius:10px;
     border-top-left-radius:0;
 
-    transition: width 2s
 
 `;
 

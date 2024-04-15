@@ -2,16 +2,31 @@ import styled from 'styled-components';
 
 export const MoviePageContainer = styled.div`
   margin-top: 20px;
-  display: flex;
+  
+
+  @media screen and (min-width: 768px) {
+    display:flex;
+  }
+
+  @media screen and (min-width: 1440px) {
+    
+  }
 `;
 
 export const Description = styled.div`
+@media screen and (min-width: 768px) {
   margin-left: 40px;
+  }
+
+  @media screen and (min-width: 1440px) {
+  }
+  
 `;
 
 export const MovieLargeImageItem = styled.img`
   height: 600px;
   border-radius: 2%;
+
 `;
 
 export const MoviePageNavigation = styled.nav`
@@ -23,7 +38,7 @@ export const MoviePageNavigation = styled.nav`
 export const Timer = styled.div`
   position: absolute;
   top: 20px;
-  left: 81%;
+  left: 310px;
   display: flex;
   width: 60px;
   height: 60px;
@@ -66,6 +81,7 @@ export const GenresContainer = styled.ul`
   margin: 0;
   padding: 0;
   display: flex;
+  align-items:center;
 `;
 export const GenresItem = styled.li`
   margin: 10px;
