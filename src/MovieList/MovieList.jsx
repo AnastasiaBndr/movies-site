@@ -6,7 +6,7 @@ import { MovieItem, PaginationsButtons } from 'components/Scheme/schemes';
 import {
   selectPage,
   selectGenres,
-  selectIsFetching
+  selectIsFetching,
 } from '../redux/trands/trandingSelectors';
 import {
   MoviesListContainer,
@@ -27,7 +27,6 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
   useEffect(() => {
     dispatch(getTrandingMovies({ page: page }));
     dispatch(getGenresMovies());
-
   }, [dispatch, page]);
 
   const nextPageOnClick = () => {
@@ -35,7 +34,6 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
   };
 
   const currentPageOnClick = e => {
-
     dispatch(getTrandingMovies({ page: e.target.textContent }));
   };
 
@@ -47,20 +45,20 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
   if (movies === null) movies = [];
   return (
     <MoviesListContainer>
-      <h1 className="movies-list-title">
-        Tranding now
-      </h1>
+      <h1 className="movies-list-title">Tranding now</h1>
       {genres && (
         <GenresList>
           {genres.map(genre => {
-            return (<Link to={'movies/filter/' + genre.name + ''} state={{ from: location }}>
-              <GenresListItem
+            return (
+              <Link
                 key={genre.id}
-                onClick={() => chooseGenreClick(genre)}
+                to={'movies/filter/' + genre.id + ''}
+                state={{ from: location }}
               >
-                {genre.name}
-              </GenresListItem></Link>
-
+                <GenresListItem onClick={() => chooseGenreClick(genre)}>
+                  {genre.name}
+                </GenresListItem>
+              </Link>
             );
           })}
         </GenresList>
@@ -92,7 +90,8 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
         previousPageOnClick={previousPageOnClick}
         currentPageOnClick={currentPageOnClick}
         page={page}
-        nextPageOnClick={nextPageOnClick} />
+        nextPageOnClick={nextPageOnClick}
+      />
     </MoviesListContainer>
   );
 };

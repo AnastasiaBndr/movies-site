@@ -14,7 +14,6 @@ import FilteredMovieList from 'FilteredMovieList';
 
 const CurrentMoviePageLazy = lazy(() => import('CurrentMoviePage'));
 
-
 export default function App() {
   const trandingMovies = useSelector(selectMovies);
   const details = useSelector(selectDetails);
@@ -23,7 +22,6 @@ export default function App() {
 
   const chooseMovieClick = async movie => {
     await localStorage.setItem('current_movie', JSON.stringify(movie));
-
     await setCurrentMovie(movie);
   };
 
@@ -31,6 +29,7 @@ export default function App() {
     await localStorage.setItem('current_genre', JSON.stringify(genre));
     await setGenre(genre);
   };
+
   return (
     <Suspense
       fallback={
@@ -66,11 +65,20 @@ export default function App() {
         />
         <Route
           path="movies/filter/:type"
-          element={<FilteredMovieList genre={genre} movies={trandingMovies} chooseMovieClick={chooseMovieClick} chooseGenreClick={chooseGenreClick} />}
+          element={
+            <FilteredMovieList
+              genre={genre}
+              movies={trandingMovies}
+              chooseMovieClick={chooseMovieClick}
+              chooseGenreClick={chooseGenreClick}
+            />
+          }
         ></Route>
         <Route
-          path="movies/:id"
-          element={<CurrentMoviePageLazy movie={currentMovie} details={details} />}
+          path=":type/:id"
+          element={
+            <CurrentMoviePageLazy movie={currentMovie} details={details} />
+          }
         >
           <Route path="cast" element={<Cast></Cast>}></Route>
         </Route>

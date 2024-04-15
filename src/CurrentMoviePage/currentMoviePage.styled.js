@@ -22,7 +22,7 @@ export const MoviePageNavigation = styled.nav`
 
 export const Timer = styled.div`
   position: absolute;
-  top: 3%;
+  top: 20px;
   left: 81%;
   display: flex;
   width: 60px;

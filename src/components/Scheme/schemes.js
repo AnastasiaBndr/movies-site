@@ -6,7 +6,7 @@ import {
   ImageContainer,
   MoviesList,
   PaginationButtons,
-} from '../../MovieList/MovieList.styled';
+} from './schemes.styled';
 
 const MovieItem = ({ movies, chooseMovieClick, location }) => {
   return (
@@ -14,7 +14,7 @@ const MovieItem = ({ movies, chooseMovieClick, location }) => {
       {movies.map(movie => {
         return (
           <MoviesItem key={movie.id} onClick={() => chooseMovieClick(movie)}>
-            <Link to={'/movies/' + movie.id + ''} state={{ from: location }}>
+            <Link to={'/' + movie.media_type + '/'+movie.id} state={{ from: location }}>
               <ImageContainer>
                 <img
                   src={`https://image.tmdb.org/t/p/w200${movie.poster_path}?api_key=${process.env.KEY}`}
