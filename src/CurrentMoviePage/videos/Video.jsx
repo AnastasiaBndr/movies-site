@@ -16,7 +16,7 @@ const Video = () => {
     <>
       <WatchTrailerButton
         onClick={watchButtonOnClick}
-        $buttonative={watchButton}
+        buttonactive={watchButton}
       >
         Watch trailer
       </WatchTrailerButton>

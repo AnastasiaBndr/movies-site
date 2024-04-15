@@ -36,7 +36,7 @@ const FilteredMovieList = ({
 
   useEffect(() => {
     dispatch(
-      getFilteredMoviesByGenre({ page: 1, with_genres: routeParams.type })
+      getFilteredMoviesByGenre({ page: 1, with_genres: routeParams.id })
     );
     dispatch(getGenresMovies());
     if (localStorage.getItem('current_genre') !== null) {
@@ -44,7 +44,7 @@ const FilteredMovieList = ({
     } else {
       localStorage.setItem('current_genre', JSON.stringify(genre));
     }
-  }, [dispatch, routeParams.type, genre]);
+  }, [dispatch, routeParams.id, genre]);
 
   const nextPageOnClick = () => {
     dispatch(
@@ -80,7 +80,7 @@ const FilteredMovieList = ({
           {genres.map(genre => {
             return (
               <Link
-                to={'/movies/filter/' + genre.id + ''}
+                to={'/filter/' + genre.name + '/' + genre.id + ''}
                 key={genre.id}
                 state={{ from: location }}
               >

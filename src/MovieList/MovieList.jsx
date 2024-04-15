@@ -52,7 +52,7 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
             return (
               <Link
                 key={genre.id}
-                to={'movies/filter/' + genre.id + ''}
+                to={'filter/' + genre.name + '/' + genre.id + ''}
                 state={{ from: location }}
               >
                 <GenresListItem onClick={() => chooseGenreClick(genre)}>

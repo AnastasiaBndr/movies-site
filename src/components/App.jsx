@@ -51,7 +51,7 @@ export default function App() {
         />
       }
     >
-      <Header chooseMovieClick={chooseMovieClick} />
+      <Header chooseMovieClick={chooseMovieClick} movies={trandingMovies} />
       <Routes>
         <Route
           path="/"
@@ -64,7 +64,7 @@ export default function App() {
           }
         />
         <Route
-          path="movies/filter/:type"
+          path="/filter/:type/:id"
           element={
             <FilteredMovieList
               genre={genre}

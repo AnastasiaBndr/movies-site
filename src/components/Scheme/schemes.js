@@ -12,9 +12,13 @@ const MovieItem = ({ movies, chooseMovieClick, location }) => {
   return (
     <MoviesList>
       {movies.map(movie => {
+        var mediaType=null;
+        if (movie.media_type===undefined) {
+          mediaType='movie';
+        }
         return (
           <MoviesItem key={movie.id} onClick={() => chooseMovieClick(movie)}>
-            <Link to={'/' + movie.media_type + '/'+movie.id} state={{ from: location }}>
+            <Link to={'/' + (movie.media_type===undefined ? mediaType : movie.media_type) + '/'+movie.id} state={{ from: location }}>
               <ImageContainer>
                 <img
                   src={`https://image.tmdb.org/t/p/w200${movie.poster_path}?api_key=${process.env.KEY}`}

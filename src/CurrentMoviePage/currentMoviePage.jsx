@@ -36,7 +36,7 @@ const CurrentMoviePage = ({ movie }) => {
       {details && (
         <MoviePageContainer>
           <MovieImageWrapper>
-            <Timer $circlepersentage={details.vote_average}>
+            <Timer circlepersentage={details.vote_average}>
               {details.vote_average}
             </Timer>
             <MovieLargeImageItem
