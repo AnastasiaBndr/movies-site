@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { selectMovies } from '../redux/trands/trandingSelectors';
+import { selectMovies } from '../redux/moviesList/moviesListSelectors';
 
 const Header = ({ chooseMovieClick }) => {
   const location = useLocation();

@@ -8,7 +8,7 @@ import Header from 'Header';
 import Cast from 'Cast';
 import MovieList from 'MovieList';
 import { useSelector } from 'react-redux';
-import { selectMovies } from '../redux/trands/trandingSelectors';
+import { selectMovies } from '../redux/moviesList/moviesListSelectors';
 import { selectDetails } from '../redux/currentMovie/currentMovieSelectors';
 import FilteredMovieList from 'FilteredMovieList';
 

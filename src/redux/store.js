@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { trandingReducer } from './trands/trandsSlice';
+import { moviesListReducer } from './moviesList/moviesListSlice';
 import { currentMovieReducer } from './currentMovie/currentMovieSlice';
 import storage from 'redux-persist/lib/storage';
 import { authReducer } from './auth/authSlice';
@@ -22,7 +22,7 @@ const authPersistConfig = {
 
 export const store = configureStore({
   reducer: {
-    movie: trandingReducer,
+    movie: moviesListReducer,
     currentMovie: currentMovieReducer,
     auth: persistReducer(authPersistConfig, authReducer),
   },

@@ -7,7 +7,7 @@ import {
   selectPage,
   selectGenres,
   selectIsFetching,
-} from '../redux/trands/trandingSelectors';
+} from '../redux/moviesList/moviesListSelectors';
 import {
   MoviesListContainer,
   GenresList,
@@ -16,7 +16,7 @@ import {
 import {
   getFilteredMoviesByGenre,
   getGenresMovies,
-} from '../redux/trands/trandsOperations';
+} from '../redux/moviesList/moviesListOperations';
 
 const FilteredMovieList = ({
   movies,

@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { toastError, toastSuccess } from '../helpers/toastcase';
+import { thunkWrapper } from '../helpers/thunkWrapper';
 
 const TheMovieDB = axios.create({
   baseURL: 'https://api.themoviedb.org',
@@ -11,31 +10,12 @@ const TheMovieDB = axios.create({
   },
 });
 
-export const getVideos = createAsyncThunk(
-  'movie/videos',
-  async (data, thunkAPI) => {
-    try {
-      const { id, type } = data;
-      const res = await TheMovieDB.get(`/3/${type}/${id}/videos`);
-      toastSuccess('We did it! Page ' + res.data, res.data);
-      return res.data;
-    } catch (error) {
-      toastError(error.response.data.message);
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }
-  }
-);
+export const getVideos = thunkWrapper('movie/videos', data => {
+  const { id, type } = data;
+  return TheMovieDB.get(`/3/${type}/${id}/videos`);
+});
 
-export const getDetails = createAsyncThunk(
-  'movie/details',
-  async (data, thunkAPI) => {
-    try {
-      const { id, type } = data;
-      const res = await TheMovieDB.get(`/3/${type}/${id}`);
-      return res.data;
-    } catch (error) {
-      toastError(error.response.data.message);
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }
-  }
-);
+export const getDetails = thunkWrapper('movie/details', data => {
+  const { id, type } = data;
+  return TheMovieDB.get(`/3/${type}/${id}`);
+});

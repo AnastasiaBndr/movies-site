@@ -7,16 +7,16 @@ import {
   selectPage,
   selectGenres,
   selectIsFetching,
-} from '../redux/trands/trandingSelectors';
+} from '../redux/moviesList/moviesListSelectors';
 import {
   MoviesListContainer,
   GenresList,
   GenresListItem,
 } from './MovieList.styled';
 import {
-  getTrandingMovies,
+  getMoviesList,
   getGenresMovies,
-} from '../redux/trands/trandsOperations';
+} from '../redux/moviesList/moviesListOperations';
 
 const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
   const dispatch = useDispatch();
@@ -25,20 +25,20 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
   const isLoading = useSelector(selectIsFetching);
 
   useEffect(() => {
-    dispatch(getTrandingMovies({ page: page }));
+    dispatch(getMoviesList({ page: page }));
     dispatch(getGenresMovies());
   }, [dispatch, page]);
 
   const nextPageOnClick = () => {
-    dispatch(getTrandingMovies({ page: page + 1 }));
+    dispatch(getMoviesList({ page: page + 1 }));
   };
 
   const currentPageOnClick = e => {
-    dispatch(getTrandingMovies({ page: e.target.textContent }));
+    dispatch(getMoviesList({ page: e.target.textContent }));
   };
 
   const previousPageOnClick = () => {
-    if (page > 1) dispatch(getTrandingMovies({ page: page - 1 }));
+    if (page > 1) dispatch(getMoviesList({ page: page - 1 }));
   };
 
   const location = useLocation();
