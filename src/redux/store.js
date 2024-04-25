@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { trandingReducer } from './trands/trandsSlice';
 import { currentMovieReducer } from './currentMovie/currentMovieSlice';
+import storage from 'redux-persist/lib/storage';
+import { authReducer } from './auth/authSlice';
 import {
   persistStore,
   FLUSH,
@@ -10,11 +12,19 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import persistReducer from 'redux-persist/es/persistReducer';
 
-const store = configureStore({
-    reducer: {
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['token'],
+};
+
+export const store = configureStore({
+  reducer: {
     movie: trandingReducer,
-    currentMovie:currentMovieReducer,
+    currentMovie: currentMovieReducer,
+    auth: persistReducer(authPersistConfig, authReducer),
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
@@ -25,4 +35,3 @@ const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-export default store;
