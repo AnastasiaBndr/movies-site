@@ -33,7 +33,6 @@ const Header = ({ chooseMovieClick }) => {
           image = movies[Math.trunc(Math.random() * 20)];
         }
         setHeroImage(image);
-        console.log(image + 'YOOOOOOOOOO');
         localStorage.setItem('header_image', JSON.stringify(image));
       }
     } else {
@@ -82,13 +81,14 @@ const Header = ({ chooseMovieClick }) => {
             <GoBackButton>Go back</GoBackButton>
           </Link>
         )}
-        <nav>
-          <NavBar>
-            <NavLink className="nav-element" to="/">
-              Popular
-            </NavLink>
-          </NavBar>
-        </nav>
+        <NavBar>
+          <NavLink className="nav-element" to="/">
+            Popular
+          </NavLink>
+          <NavLink className="nav-element" to="/login">
+            Log in
+          </NavLink>
+        </NavBar>
       </MainHeader>
     </>
   );

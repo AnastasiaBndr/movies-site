@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { selectMovies } from '../redux/moviesList/moviesListSelectors';
 import { selectDetails } from '../redux/currentMovie/currentMovieSelectors';
 import FilteredMovieList from 'FilteredMovieList';
+import LogIn from 'LogIn';
+import Register from 'Register';
 
 const CurrentMoviePageLazy = lazy(() => import('CurrentMoviePage'));
 
@@ -60,6 +62,20 @@ export default function App() {
               movies={trandingMovies}
               chooseMovieClick={chooseMovieClick}
               chooseGenreClick={chooseGenreClick}
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <LogIn
+            />
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Register
             />
           }
         />

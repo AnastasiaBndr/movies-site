@@ -1,15 +1,12 @@
-//import axios from 'axios';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-//import { toastError, toastSuccess } from '../helpers/toastcase';
+import axios from 'axios';
+import { thunkWrapperForUser } from '../helpers/thunkWrapperForUser';
 
-// const insrance = axios.create({
-//   baseURL: 'https://movies-site-api.onrender.com',
-//   timeout: 1000,
-//   headers: { Authorization: '' },
-// });
+const instance = axios.create({
+  baseURL: 'https://movies-site-api.onrender.com/api',
+  timeout: 1000,
+  headers: { Authorization: '' },
+});
 
-//axios.defaults.baseURL = 'https://movies-site-api.onrender.com';
-
-//axios.defaults.headers.common.Authorization = '';
-
-export const register = createAsyncThunk('auth', async (data, thunkAPI) => {});
+export const register = thunkWrapperForUser('auth/register', data => {
+  return instance.post('auth/register', data);
+});

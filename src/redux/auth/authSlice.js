@@ -3,7 +3,8 @@ import { register } from './authOperations';
 
 const initialState = {
   isLoading: false,
-  isFetching: false,
+  isLoggedIn: false,
+  token: null,
   error: null,
   user: { name: null, email: null, phone: null },
 };

@@ -29,8 +29,12 @@ export const MainHeader = styled.header`
 
 export const NavBar = styled.ul`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   padding: 0;
+
+  a {
+    margin: 10px;
+  }
 `;
 
 export const Button = styled.button`
