@@ -5,7 +5,7 @@ const initialState = {
   isLoading: false,
   isFetching: false,
   error: null,
-  user: {},
+  user: { name: null, email: null, phone: null },
 };
 
 const authSlice = createSlice({
