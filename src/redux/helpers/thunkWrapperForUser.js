@@ -4,7 +4,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const thunkWrapperForUser = (name, requestFn) =>
   createAsyncThunk(`${name}`, async (data, thunkAPI) => {
     try {
-      console.log(data);
       const res = await requestFn(data);
       toastSuccess('You successfully created account!');
       return res.data;

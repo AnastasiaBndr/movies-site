@@ -4,7 +4,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 export const thunkWrapper = (name, requestFn) =>
   createAsyncThunk(`${name}`, async (data, thunkAPI) => {
     try {
-      console.log(data);
       const res = await requestFn(data);
       toastSuccess('We did it!');
       return res.data;

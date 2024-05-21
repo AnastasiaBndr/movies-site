@@ -13,6 +13,7 @@ import { selectDetails } from '../redux/currentMovie/currentMovieSelectors';
 import FilteredMovieList from 'FilteredMovieList';
 import LogIn from 'LogIn';
 import Register from 'Register';
+import UserPage from 'UserPage/UserPage';
 
 const CurrentMoviePageLazy = lazy(() => import('CurrentMoviePage'));
 
@@ -76,6 +77,13 @@ export default function App() {
           path="/register"
           element={
             <Register
+            />
+          }
+        />
+        <Route
+          path="/user/:username"
+          element={
+            <UserPage
             />
           }
         />

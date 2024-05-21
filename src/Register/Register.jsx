@@ -1,23 +1,33 @@
 import { StyledForm, StyledInput, StyledButton, StyledLabel, FormContainer, ButtonAndLink } from './Register.styled';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../redux/auth/authOperations';
+import { selectError } from '../redux/auth/authSelectors';
 
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [name, setName] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [enabled, setEnabled] = useState(false);
+  const loggingError = useSelector(selectError);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     dispatch(register({ name, email, password, username }));
 
+    if (!loggingError) {
+      navigate('/login');
+    }
+    setEmail('');
+    setName('');
+    setUsername('');
+    setPassword('');
 
   }
 
@@ -49,7 +59,7 @@ const Register = () => {
   }
 
 
-  const buttonEnabled = (username, email, password) => {
+  const buttonEnabled = (name, username, email, password) => {
     if (username.length > 0 && password.length > 0 && email.length > 0 && name.length > 0) {
       setEnabled(true);
     } else {
@@ -70,7 +80,7 @@ const Register = () => {
         <StyledLabel>Password:</StyledLabel>
         <StyledInput type="password" value={password} id="password" name="password" onChange={(e) => handleChange(e)} />
         <ButtonAndLink>
-          <StyledButton type="submit" disabled={!enabled}>Login</StyledButton>
+          <StyledButton type="submit" disabled={!enabled}>Register</StyledButton>
           <NavLink className="nav-element" to="/login">
             Have an account?
           </NavLink>

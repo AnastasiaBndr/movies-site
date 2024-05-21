@@ -10,6 +10,7 @@ import {
   GoBackButton,
 } from './Header.styled';
 import './styles.css';
+import { selectIsLoggedIn } from '../redux/auth/authSelectors';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -19,11 +20,10 @@ import { selectMovies } from '../redux/moviesList/moviesListSelectors';
 
 const Header = ({ chooseMovieClick }) => {
   const location = useLocation();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const movies = useSelector(selectMovies);
   const backLinkLocationRef = useRef(location.state?.from ?? '/');
   const [heroImage, setHeroImage] = useState({});
-
-  console.log(movies);
 
   useEffect(() => {
     if (!localStorage.getItem('header_image')) {
@@ -85,9 +85,12 @@ const Header = ({ chooseMovieClick }) => {
           <NavLink className="nav-element" to="/">
             Popular
           </NavLink>
-          <NavLink className="nav-element" to="/login">
+          {!isLoggedIn && <NavLink className="nav-element" to="/login">
             Log in
-          </NavLink>
+          </NavLink>}
+          {isLoggedIn && <NavLink className="nav-element" to="/user/573482">
+            User Page
+          </NavLink>}
         </NavBar>
       </MainHeader>
     </>

@@ -1,0 +1,7 @@
+.movie-links-item {
+  margin: 0 15% 0 15%;
+}
+
+.movie-links-item.active {
+  color: coral;
+}

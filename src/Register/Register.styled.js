@@ -1,19 +1,25 @@
 import styled from 'styled-components';
 
 export const FormContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+
+  @media screen and (min-width: 768px) {
+    transform: translateY(160px);
+  }
 `;
 
 export const StyledForm = styled.form`
   font-size: 18px;
-  width: 400px;
+  width: 80%;
   box-sizing: border-box;
   background-color: #222;
   padding: 20px;
   border-radius: 5px;
+
+  @media screen and (min-width: 768px) {
+    width: 400px;
+  }
 `;
 
 export const StyledLabel = styled.label`
@@ -69,9 +75,12 @@ export const StyledButton = styled.button`
 `;
 
 export const StyledAlert = styled.div`
-  padding: 10px;
+  position: absolute;
+  padding: 20px;
   background-color: #f44336;
   color: white;
   margin-top: 10px;
   border-radius: 5px;
+
+  opacity: ${props => (props.errorAlert ? 1 : 0)};
 `;
