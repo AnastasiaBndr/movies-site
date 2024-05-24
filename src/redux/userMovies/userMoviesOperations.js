@@ -7,14 +7,14 @@ const instance = axios.create({
   headers: { Authorization: '' },
 });
 
-const token = {
-  set(token) {
-    instance.defaults.headers.common.Authorization = `Bearer: ${token}`;
-  },
-  unset() {
-    instance.defaults.headers.common.Authorization = '';
-  },
-};
+// const token = {
+//   set(token) {
+//     instance.defaults.headers.common.Authorization = `Bearer: ${token}`;
+//   },
+//   unset() {
+//     instance.defaults.headers.common.Authorization = '';
+//   },
+// };
 
 export const getUserMovies = thunkWrapper('movies/getUserMovies', data => {
   return instance.get('movies/', data);
