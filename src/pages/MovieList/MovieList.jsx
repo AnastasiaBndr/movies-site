@@ -7,7 +7,7 @@ import {
   selectPage,
   selectGenres,
   selectIsFetching,
-} from '../redux/moviesList/moviesListSelectors';
+} from '../../redux/moviesList/moviesListSelectors';
 import {
   MoviesListContainer,
   GenresList,
@@ -16,7 +16,7 @@ import {
 import {
   getMoviesList,
   getGenresMovies,
-} from '../redux/moviesList/moviesListOperations';
+} from '../../redux/moviesList/moviesListOperations';
 
 const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
   const dispatch = useDispatch();

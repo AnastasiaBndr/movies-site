@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import {
   getDetails,
   getVideos,
-} from '../redux/currentMovie/currentMovieOperations';
-import { selectDetails } from '../redux/currentMovie/currentMovieSelectors';
+} from '../../redux/currentMovie/currentMovieOperations';
+import { selectDetails } from '../../redux/currentMovie/currentMovieSelectors';
 import {
   MoviePageContainer,
   MovieTitle,
@@ -35,6 +35,7 @@ const CurrentMoviePage = ({ movie }) => {
     <PageContainer>
       {details && (
         <MoviePageContainer>
+          {console.log(details)}
           <MovieImageWrapper>
             <Timer circlepersentage={details.vote_average}>
               {details.vote_average}

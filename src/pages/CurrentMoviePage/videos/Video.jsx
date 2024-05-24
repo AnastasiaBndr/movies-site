@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { selectVideos } from '../../redux/currentMovie/currentMovieSelectors';
+import { selectVideos } from '../../../redux/currentMovie/currentMovieSelectors';
 import { useSelector } from 'react-redux';
 
 import { VideoFrame, WatchTrailerButton } from './Video.styled';

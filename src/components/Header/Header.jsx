@@ -10,13 +10,14 @@ import {
   GoBackButton,
 } from './Header.styled';
 import './styles.css';
-import { selectIsLoggedIn } from '../redux/auth/authSelectors';
+import { selectIsLoggedIn, selectUser } from '../../redux/auth/authSelectors';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { selectMovies } from '../redux/moviesList/moviesListSelectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMovies } from '../../redux/moviesList/moviesListSelectors';
+import { refreshCurrentUser } from '../../redux/auth/authOperations';
 
 const Header = ({ chooseMovieClick }) => {
   const location = useLocation();
@@ -24,6 +25,8 @@ const Header = ({ chooseMovieClick }) => {
   const movies = useSelector(selectMovies);
   const backLinkLocationRef = useRef(location.state?.from ?? '/');
   const [heroImage, setHeroImage] = useState({});
+  const currentUser = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!localStorage.getItem('header_image')) {
@@ -39,6 +42,11 @@ const Header = ({ chooseMovieClick }) => {
       setHeroImage(JSON.parse(localStorage.getItem('header_image')));
     }
   }, [movies]);
+
+  useEffect(() => {
+    dispatch(refreshCurrentUser());
+  }, [dispatch]);
+
   return (
     <>
       <Hero>
@@ -88,7 +96,7 @@ const Header = ({ chooseMovieClick }) => {
           {!isLoggedIn && <NavLink className="nav-element" to="/login">
             Log in
           </NavLink>}
-          {isLoggedIn && <NavLink className="nav-element" to="/user/573482">
+          {isLoggedIn && <NavLink className="nav-element" to={`/user/${currentUser.username}`}>
             User Page
           </NavLink>}
         </NavBar>

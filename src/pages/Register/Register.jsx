@@ -2,8 +2,8 @@ import { StyledForm, StyledInput, StyledButton, StyledLabel, FormContainer, Butt
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../redux/auth/authOperations';
-import { selectError } from '../redux/auth/authSelectors';
+import { register } from '../../redux/auth/authOperations';
+import { selectError } from '../../redux/auth/authSelectors';
 
 
 const Register = () => {

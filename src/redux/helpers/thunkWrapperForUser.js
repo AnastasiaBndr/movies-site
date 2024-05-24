@@ -8,7 +8,8 @@ export const thunkWrapperForUser = (name, requestFn) =>
       toastSuccess('You successfully created account!');
       return res.data;
     } catch (error) {
-      toastError(`Error: ${error.response.data.message}`);
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      toastError(`Error: ${errorMessage}`);
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   });

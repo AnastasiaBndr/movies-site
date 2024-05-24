@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { register, logIn, findByEmail, findByUserName } from './authOperations';
+import {
+  register,
+  logIn,
+  findByEmail,
+  findByUserName,
+  logOut,
+  refreshCurrentUser,
+} from './authOperations';
 
 const initialState = {
   isLoading: false,
@@ -80,6 +87,43 @@ const authSlice = createSlice({
 
     builder.addCase(findByUserName.rejected, (state, action) => {
       state.isLoggedIn = false;
+      state.isLoading = false;
+      state.error = action.error;
+    });
+
+    builder.addCase(logOut.fulfilled, (state, action) => {
+      state.user = {
+        name: null,
+        email: null,
+        username: null,
+        avatar: null,
+        createdAt: null,
+      };
+      state.token = null;
+      state.isLoading = false;
+      state.isLoggedIn = false;
+    });
+
+    builder.addCase(logOut.pending, (state, action) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(logOut.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    });
+
+    builder.addCase(refreshCurrentUser.fulfilled, (state, action) => {
+      state.user = { ...action.payload };
+      state.isLoading = false;
+      state.isLoggedIn = true;
+    });
+
+    builder.addCase(refreshCurrentUser.pending, (state, action) => {
+      state.isLoading = true;
+    });
+
+    builder.addCase(refreshCurrentUser.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.error;
     });

@@ -2,7 +2,7 @@ import { StyledForm, StyledInput, StyledButton, StyledLabel, FormContainer, Butt
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logIn, findByEmail } from '../redux/auth/authOperations';
+import { logIn, findByEmail } from '../../redux/auth/authOperations';
 import debounce from 'lodash.debounce';
 
 const LogIn = () => {
