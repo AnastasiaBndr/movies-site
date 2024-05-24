@@ -32,11 +32,11 @@ const LogIn = () => {
       setPassword('');
 
       if (emailUsername.toString().startsWith('@')) {
-        navigate('/user/' + emailUsername);
+        navigate('/current/user/' + emailUsername);
       } else {
         const userResponse = await dispatch(findByEmail(emailUsername));
         if (userResponse && userResponse.user) {
-          navigate('/user/' + userResponse.user.username);
+          navigate('/current/user/' + userResponse.user.username);
         }
       }
     } else {

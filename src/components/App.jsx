@@ -15,6 +15,7 @@ import FilteredMovieList from 'pages/FilteredMovieList';
 import LogIn from 'pages/LogIn';
 import Register from 'pages/Register';
 import UserPage from 'pages/UserPage/UserPage';
+import OtherUserPage from 'pages/OtherUsersPage'
 import { refreshCurrentUser } from '../redux/auth/authOperations';
 
 const CurrentMoviePageLazy = lazy(() => import('pages/CurrentMoviePage'));
@@ -91,6 +92,13 @@ export default function App() {
           />
           <Route
             path="/user/:username"
+            element={
+              <OtherUserPage
+              />
+            }
+          />
+          <Route
+            path="current/user/:username"
             element={
               <UserPage
               />

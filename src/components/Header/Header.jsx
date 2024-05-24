@@ -96,7 +96,7 @@ const Header = ({ chooseMovieClick }) => {
           {!isLoggedIn && <NavLink className="nav-element" to="/login">
             Log in
           </NavLink>}
-          {isLoggedIn && <NavLink className="nav-element" to={`/user/${currentUser.username}`}>
+          {isLoggedIn && <NavLink className="nav-element" to={`/current/user/${currentUser.username}`}>
             User Page
           </NavLink>}
         </NavBar>
