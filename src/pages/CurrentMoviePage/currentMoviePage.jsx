@@ -16,35 +16,79 @@ import {
   MovieImageWrapper,
   GenresItem,
   GenresContainer,
+  FinishedButton
 } from './currentMoviePage.styled';
 import Video from './videos';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectIsLoggedIn } from '../../redux/auth/authSelectors';
+//import { selectUser } from '../../redux/auth/authSelectors';
+//import { selectUserMovies } from '../../redux/userMovies/userMoviesSelectors';
+import { addMovieToList, getUserMovies } from '../../redux/userMovies/userMoviesOperations';
 
 const CurrentMoviePage = ({ movie }) => {
   const dispatch = useDispatch();
   const details = useSelector(selectDetails);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  //const user = useSelector(selectUser);
+  //const movies = useSelector(selectUserMovies);
   const routeParams = useParams();
-  console.log(routeParams);
 
   useEffect(() => {
     dispatch(getDetails({ id: routeParams.id, type: routeParams.type }));
     dispatch(getVideos({ id: routeParams.id, type: routeParams.type }));
   }, [dispatch, routeParams.id, routeParams.type]);
 
+  const addToList = ({ target }) => {
+
+    dispatch(getUserMovies);
+    switch (target.name) {
+      case "favorite": {
+        dispatch(addMovieToList({
+          globalId: details.id + "",
+          name: details.name ? details.name : details.title,
+          poster: details.backdrop_path,
+          status: target.name,
+          media_type: routeParams.type,
+        }));
+        break;
+      }
+      case "dropped": {
+        break;
+      }
+      case "watching": {
+        break;
+      }
+      case "finished": {
+        break;
+      }
+      default: return;
+    }
+
+  }
+
   return (
     <PageContainer>
       {details && (
         <MoviePageContainer>
-          {console.log(details)}
-          <MovieImageWrapper>
-            <Timer circlepersentage={details.vote_average}>
-              {details.vote_average}
-            </Timer>
-            <MovieLargeImageItem
-              src={`https://image.tmdb.org/t/p/w500${details.poster_path}?api_key=${process.env.KEY}`}
-              alt={details.name ?? details.title}
-            />
-          </MovieImageWrapper>
+          <div>
+            <MovieImageWrapper>
+              <Timer circlepersentage={details.vote_average}>
+                {details.vote_average}
+              </Timer>
+              <MovieLargeImageItem
+                src={`https://image.tmdb.org/t/p/w500${details.poster_path}?api_key=${process.env.KEY}`}
+                alt={details.name ?? details.title}
+              />
+            </MovieImageWrapper>
+            {isLoggedIn && <div>
+              <FinishedButton name="favorite" onClick={addToList}>Favorite</FinishedButton>
+              <FinishedButton name="watching" onClick={addToList}>Watching</FinishedButton>
+              <FinishedButton name="finished" onClick={addToList}>Finished</FinishedButton>
+              <FinishedButton name="dropped" onClick={addToList}>Dropped</FinishedButton>
+            </div>}
+          </div>
+
+
 
           <Description>
             <MovieTitle>{details.name ?? details.title}</MovieTitle>

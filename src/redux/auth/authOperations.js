@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 const instance = axios.create({
   baseURL: 'https://movies-site-api.onrender.com/api',
-  timeout: 1000,
+  timeout: 5000,
 });
 const token = {
   set(token) {
@@ -68,8 +68,8 @@ export const refreshCurrentUser = createAsyncThunk(
   async (_, thunkAPI) => {
     const persistedToken = thunkAPI.getState().auth.token;
 
-    if (persistedToken === null) {
-      return;
+    if (!persistedToken) {
+      return thunkAPI.rejectWithValue('Unable to get user');
     }
 
     token.set(persistedToken);

@@ -22,22 +22,29 @@ const initialState = {
   },
 };
 
+const onPending = state => {
+  state.isLoading = true;
+  state.error = null;
+};
+
+const onRejected = (state, { payload }) => {
+  state.isLoading = false;
+  state.error = payload;
+};
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   extraReducers: builder => {
     builder.addCase(register.fulfilled, (state, action) => {
-      state.isLoggedIn = false;
       state.isLoading = false;
     });
 
     builder.addCase(register.pending, (state, action) => {
       state.isLoading = true;
-      state.isLoggedIn = false;
     });
 
     builder.addCase(register.rejected, (state, action) => {
-      state.isLoggedIn = false;
       state.isLoading = false;
       state.error = action.payload.error;
     });
@@ -48,17 +55,6 @@ const authSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(logIn.pending, (state, action) => {
-      state.isLoading = true;
-      state.isLoggedIn = false;
-    });
-
-    builder.addCase(logIn.rejected, (state, action) => {
-      state.isLoggedIn = false;
-      state.isLoading = false;
-      state.error = action.error;
-    });
-
     builder.addCase(findByEmail.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.isLoading = false;
@@ -66,11 +62,9 @@ const authSlice = createSlice({
 
     builder.addCase(findByEmail.pending, (state, action) => {
       state.isLoading = true;
-      state.isLoggedIn = false;
     });
 
     builder.addCase(findByEmail.rejected, (state, action) => {
-      state.isLoggedIn = false;
       state.isLoading = false;
       state.error = action.error;
     });
@@ -82,11 +76,9 @@ const authSlice = createSlice({
 
     builder.addCase(findByUserName.pending, (state, action) => {
       state.isLoading = true;
-      state.isLoggedIn = false;
     });
 
     builder.addCase(findByUserName.rejected, (state, action) => {
-      state.isLoggedIn = false;
       state.isLoading = false;
       state.error = action.error;
     });
@@ -104,17 +96,8 @@ const authSlice = createSlice({
       state.isLoggedIn = false;
     });
 
-    builder.addCase(logOut.pending, (state, action) => {
-      state.isLoading = true;
-    });
-
-    builder.addCase(logOut.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.error;
-    });
-
     builder.addCase(refreshCurrentUser.fulfilled, (state, action) => {
-      state.user = { ...action.payload };
+      state.user = action.payload;
       state.isLoading = false;
       state.isLoggedIn = true;
     });
@@ -127,6 +110,9 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.error = action.error;
     });
+
+    builder.addMatcher(action => action.type.endsWith('/pending'), onPending);
+    builder.addMatcher(action => action.type.endsWith('/rejected'), onRejected);
   },
 });
 
