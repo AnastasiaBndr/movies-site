@@ -10,7 +10,6 @@ export const Container = styled.div`
   @media screen and (min-width: 1440px) {
     padding: 0 0 0 49px;
     margin-block-start: 143px;
-    border-left: 1px solid #222;
   }
 `;
 
@@ -132,4 +131,36 @@ export const SvgLogoutIcon = styled.svg`
 
 export const ProfilePicContainer = styled.div`
   position: relative;
+`;
+
+export const List = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-inline-start: 0;
+`;
+export const ListItem = styled.li`
+  display: block;
+  background: none;
+  color: pink;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  background-color: #222;
+  border-radius: 20px;
+  padding: 15px;
+
+  transition: color 0.2s ease;
+  transition: background-color 0.2s ease;
+  margin-top: 20px;
+
+  &:hover,
+  &:focus {
+    color: #222;
+    background-color: coral;
+  }
+  list-style-type: none;
+  margin: 5px;
 `;

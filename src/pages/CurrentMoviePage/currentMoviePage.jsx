@@ -29,8 +29,6 @@ const CurrentMoviePage = ({ movie }) => {
   const dispatch = useDispatch();
   const details = useSelector(selectDetails);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  //const user = useSelector(selectUser);
-  //const movies = useSelector(selectUserMovies);
   const routeParams = useParams();
 
   useEffect(() => {
@@ -41,28 +39,14 @@ const CurrentMoviePage = ({ movie }) => {
   const addToList = ({ target }) => {
 
     dispatch(getUserMovies);
-    switch (target.name) {
-      case "favorite": {
-        dispatch(addMovieToList({
-          globalId: details.id + "",
-          name: details.name ? details.name : details.title,
-          poster: details.backdrop_path,
-          status: target.name,
-          media_type: routeParams.type,
-        }));
-        break;
-      }
-      case "dropped": {
-        break;
-      }
-      case "watching": {
-        break;
-      }
-      case "finished": {
-        break;
-      }
-      default: return;
-    }
+
+    dispatch(addMovieToList({
+      globalId: details.id + "",
+      name: details.name ? details.name : details.title,
+      poster: details.poster_path,
+      status: target.name,
+      media_type: routeParams.type,
+    }));
 
   }
 

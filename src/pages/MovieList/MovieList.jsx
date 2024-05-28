@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CirclesWithBar } from 'react-loader-spinner';
-import { MovieItem, PaginationsButtons } from 'components/Scheme/schemes';
+import { MoviesListScheme, PaginationsButtons } from 'components/Scheme/schemes';
 import {
   selectPage,
   selectGenres,
@@ -63,7 +63,7 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
           })}
         </GenresList>
       )}
-      <MovieItem
+      <MoviesListScheme
         movies={movies}
         chooseMovieClick={chooseMovieClick}
         location={location}

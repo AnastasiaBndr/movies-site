@@ -8,23 +8,38 @@ import {
   PaginationButtons,
 } from './schemes.styled';
 
-const MovieItem = ({ movies, chooseMovieClick, location }) => {
+const MoviesListScheme = ({ movies, chooseMovieClick, location }) => {
   return (
     <MoviesList>
       {movies.map(movie => {
-        var mediaType=null;
-        if (movie.media_type===undefined) {
-          mediaType='movie';
+        var mediaType = null;
+        if (movie.media_type === undefined) {
+          mediaType = 'movie';
         }
         return (
-          <MoviesItem key={movie.id} onClick={() => chooseMovieClick(movie)}>
-            <Link to={'/' + (movie.media_type===undefined ? mediaType : movie.media_type) + '/'+movie.id} state={{ from: location }}>
+          <MoviesItem
+            key={movie.id || movie.globalId}
+            onClick={() => chooseMovieClick(movie)}
+          >
+            <Link
+              to={
+                '/' +
+                (movie.media_type === undefined
+                  ? mediaType
+                  : movie.media_type) +
+                '/' +
+                (movie.id || movie.globalId)
+              }
+              state={{ from: location }}
+            >
               <ImageContainer>
                 <img
-                  src={`https://image.tmdb.org/t/p/w200${movie.poster_path}?api_key=${process.env.KEY}`}
+                  src={`https://image.tmdb.org/t/p/w200${
+                    movie.poster_path || movie.poster
+                  }?api_key=${process.env.KEY}`}
                   alt={`${movie.title}`}
                 />
-                <h3>{movie.title ?? movie.name}</h3>
+                <h3>{movie.title || movie.name}</h3>
               </ImageContainer>
             </Link>
           </MoviesItem>
@@ -81,4 +96,32 @@ const PaginationsButtons = ({
   );
 };
 
-export { MovieItem, PaginationsButtons };
+const MovieItem = ({ movie, chooseMovieClick, location }) => {
+  var mediaType = null;
+  if (movie.media_type === undefined) {
+    mediaType = 'movie';
+    return (
+      <MoviesItem key={movie.id} onClick={() => chooseMovieClick(movie)}>
+        <Link
+          to={
+            '/' +
+            (movie.media_type === undefined ? mediaType : movie.media_type) +
+            '/' +
+            movie.id
+          }
+          state={{ from: location }}
+        >
+          <ImageContainer>
+            <img
+              src={`https://image.tmdb.org/t/p/w200${movie.poster_path}?api_key=${process.env.KEY}`}
+              alt={`${movie.title}`}
+            />
+            <h3>{movie.title ?? movie.name}</h3>
+          </ImageContainer>
+        </Link>
+      </MoviesItem>
+    );
+  }
+};
+
+export { MoviesListScheme, PaginationsButtons, MovieItem };

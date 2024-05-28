@@ -95,7 +95,9 @@ export default function App() {
             element={
               <OtherUserPage
               />
+
             }
+            chooseMovieClick={chooseMovieClick}
           />
           <Route
             path="current/user/:username"
@@ -103,6 +105,7 @@ export default function App() {
               <UserPage
               />
             }
+            chooseMovieClick={chooseMovieClick}
           />
           <Route
             path="/filter/:type/:id"

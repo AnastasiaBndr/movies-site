@@ -3,7 +3,7 @@ import { thunkWrapper } from '../helpers/thunkWrapper';
 
 const TheMovieDB = axios.create({
   baseURL: 'https://api.themoviedb.org',
-  timeout: 1000,
+  timeout: 5000,
   headers: {
     Authorization:
       'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNGRiNWJkN2U5YWExY2M0MzBhZjAwYzVhMDU2ZDAxMCIsInN1YiI6IjY1MTJjM2YyOGUyYmE2MDEwMTlmZjg5YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7zJPhqUXyDij87cKqpJpgtQnm376t0iMEdo8YRFnUG4',

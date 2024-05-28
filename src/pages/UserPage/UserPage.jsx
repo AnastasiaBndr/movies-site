@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { selectUser } from '../../redux/auth/authSelectors';
 import { findByUserName } from '../../redux/auth/authOperations';
 import LogOutBtn from 'components/LogOutBtn/LogOutBtn';
+import { MoviesListScheme } from '../../components/Scheme/schemes';
 import {
   Container,
   UserAvatar,
@@ -11,26 +12,33 @@ import {
   UserName,
   UserRole,
   ProfilePicContainer,
+  List, ListItem
 } from './UserPage.styled';
 import { getUserMovies } from '../../redux/userMovies/userMoviesOperations';
 import { selectUserMovies } from '../../redux/userMovies/userMoviesSelectors';
 
-const UserPage = () => {
+const UserPage = ({ chooseMovieClick }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectUser);
   const routeParams = useParams();
-  const userMovies = useSelector(selectUserMovies)
+  const userMovies = useSelector(selectUserMovies);
+  const listOptions = ['favorite', "dropped", "watching", 'finished']
   useEffect(() => {
     const { username } = routeParams;
-    console.log(username);
     dispatch(findByUserName({ username: username }));
 
   }, [dispatch, routeParams]);
 
+
   useEffect(() => {
-    dispatch(getUserMovies({ user: currentUser }));
+    if (currentUser)
+      dispatch(getUserMovies(currentUser));
   }
     , [dispatch, currentUser]);
+
+  const chooseList = (option) => {
+
+  }
 
   return (
     currentUser && <Container>
@@ -48,13 +56,22 @@ const UserPage = () => {
 
         <UserName>{currentUser.name}</UserName>
         <UserRole>{currentUser.username}</UserRole>
-        <div>
-          {userMovies && userMovies.map(movie => {
-            return (<p key={movie.id}>{movie.name}</p>)
-          })}
-        </div>
+
         <LogOutBtn>Logout</LogOutBtn>
       </UserInfo>
+      <List>
+        {listOptions.map(option => {
+          return (
+            <ListItem onClick={() => chooseList(option)}>
+              {option}
+            </ListItem>
+
+          );
+        })}
+      </List>
+
+      {userMovies && <MoviesListScheme movies={userMovies} chooseMovieClick={chooseMovieClick}>
+      </MoviesListScheme>}
     </Container>
   );
 };

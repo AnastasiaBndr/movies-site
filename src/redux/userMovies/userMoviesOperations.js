@@ -8,7 +8,8 @@ const instance = axios.create({
 });
 
 export const getUserMovies = thunkWrapper('movies/getUserMovies', data => {
-  return instance.get('movies/', data);
+  console.log(data);
+  return instance.get(`movies/?_id=${data._id}`);
 });
 
 export const addMovieToList = createAsyncThunk(

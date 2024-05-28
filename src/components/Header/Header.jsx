@@ -18,37 +18,55 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMovies } from '../../redux/moviesList/moviesListSelectors';
 import { refreshCurrentUser } from '../../redux/auth/authOperations';
+import { selectDetails } from '../../redux/currentMovie/currentMovieSelectors';
 
 const Header = ({ chooseMovieClick }) => {
   const location = useLocation();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const movies = useSelector(selectMovies);
+  const movies = useSelector(selectMovies) || [];
   const backLinkLocationRef = useRef(location.state?.from ?? '/');
   const [heroImage, setHeroImage] = useState({});
   const currentUser = useSelector(selectUser);
   const dispatch = useDispatch();
+  const details = useSelector(selectDetails);
 
   useEffect(() => {
-    if (!localStorage.getItem('header_image')) {
-      if (movies) {
-        var image = null;
-        while (!image || image.media_type === undefined || !image.media_type) {
-          image = movies[Math.trunc(Math.random() * 20)];
+    const storedImage = localStorage.getItem('header_image');
+    if (!storedImage) {
+      if (details) {
+        const image = {
+          backdrop_path: details.backdrop_path,
+          name: details.name || details.title
+        };
+        setHeroImage(image);
+        localStorage.setItem('header_image', JSON.stringify(image));
+      }
+    } else setHeroImage(JSON.parse(storedImage));
+
+  }, [details]);
+
+  useEffect(() => {
+    const storedImage = localStorage.getItem('header_image');
+    if (!storedImage) {
+      if (movies.length > 0) {
+        let image = null;
+        while (!image || !image.media_type) {
+          image = movies[Math.trunc(Math.random() * movies.length)];
         }
         setHeroImage(image);
         localStorage.setItem('header_image', JSON.stringify(image));
       }
-    } else {
-      setHeroImage(JSON.parse(localStorage.getItem('header_image')));
-    }
+    } else setHeroImage(JSON.parse(storedImage));
+
   }, [movies]);
 
   useEffect(() => {
     dispatch(refreshCurrentUser());
   }, [dispatch]);
 
+
   return (
-    <>
+    heroImage && <>
       <Hero>
         <HeroDescriptionContainer>
           <HeroTitle>{heroImage.name ?? heroImage.title}</HeroTitle>
@@ -77,7 +95,7 @@ const Header = ({ chooseMovieClick }) => {
         </HeroDescriptionContainer>
 
         <img
-          src={`https://image.tmdb.org/t/p/w500${heroImage.poster_path}?api_key=${process.env.KEY}`}
+          src={`https://image.tmdb.org/t/p/w500${heroImage.backdrop_path}?api_key=${process.env.KEY}`}
           alt={heroImage.name ?? heroImage.title}
         />
       </Hero>
