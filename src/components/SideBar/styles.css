@@ -1,21 +1,46 @@
 @import url(https://fonts.googleapis.com/css2?family=Dosis:wght@400;500&display=swap);
 
 @media (max-width: 768px) {
+  body.lock-scroll {
+    overflow: hidden;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 70;
+    display: none;
+  }
+
+  .overlay.show {
+    display: block;
+  }
+
   .side-bar {
-    margin-top: 240px;
     position: absolute;
-    overflow-y: auto;
-    top: 210px;
-    z-index: 80;
-    left: -300px; /* Приховати сайдбар поза екраном */
-    transition: left 0.3s ease;
+    top: 0;
+    left: -300px; /* Прихований стан */
+    transition: left 0.3s;
+    width: 300px; /* Ширина сайдбару */
+    z-index: 200;
   }
 
   .side-bar.open {
-    left: 0; /* Показати сайдбар */
+    left: 0; /* Відкритий стан */
+  }
+
+  .main-content {
+    transition: margin-left 0.3s;
+  }
+
+  .side-bar.open ~ .main-content {
+    margin-left: 300px; /* Ширина сайдбару */
   }
 }
-
 nav-element:focus,
 .nav-element:hover,
 .nav-element.active {
