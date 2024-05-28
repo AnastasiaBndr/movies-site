@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { selectUser } from '../../redux/auth/authSelectors';
 import { findByUserName } from '../../redux/auth/authOperations';
-import LogOutBtn from 'components/LogOutBtn/LogOutBtn';
 import { MoviesListScheme } from '../../components/Scheme/schemes';
 import {
   Container,
@@ -41,7 +40,8 @@ const UserPage = ({ chooseMovieClick }) => {
   }
 
   return (
-    currentUser && <Container>
+    currentUser &&
+    <Container>
       <UserInfo>
         <ProfilePicContainer>
           <UserAvatar fill="#494949">
@@ -57,7 +57,6 @@ const UserPage = ({ chooseMovieClick }) => {
         <UserName>{currentUser.name}</UserName>
         <UserRole>{currentUser.username}</UserRole>
 
-        <LogOutBtn>Logout</LogOutBtn>
       </UserInfo>
       <List>
         {listOptions.map(option => {
@@ -69,7 +68,6 @@ const UserPage = ({ chooseMovieClick }) => {
           );
         })}
       </List>
-
       {userMovies && <MoviesListScheme movies={userMovies} chooseMovieClick={chooseMovieClick}>
       </MoviesListScheme>}
     </Container>

@@ -18,8 +18,6 @@ export const MainHeader = styled.header`
   width: 100%;
   z-index: 100;
 
-  margin-bottom: 40px;
-
   @media screen and (min-width: 768px) {
   }
 
@@ -79,6 +77,7 @@ export const Hero = styled.div`
     object-position: 0 20%;
     margin-block-end: 0;
   }
+  z-index: 90;
 `;
 
 export const HeroTitle = styled.h3`

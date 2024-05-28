@@ -1,41 +1,25 @@
 import styled from 'styled-components';
 
 export const StyledLogOutBtn = styled.button`
-  background-color: transparent;
-  border: none;
+  display: block;
+  border: 1px solid coral;
+  z-index: 999;
+  background: #222;
+  color: pink;
   padding: 0;
+  font: inherit;
   cursor: pointer;
+  outline: inherit;
 
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  border-radius: 20px;
+  padding: 15px;
 
-  @media screen and (min-width: 1440px) {
-    &:hover,
-    &:focus {
-      & > span {
-        color: var(--accent-color);
-      }
-    }
+  transition: color 0.2s ease;
+  transition: background-color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    color: #222;
+    background-color: coral;
   }
-`;
-
-export const StyledLogOutBtnText = styled.span`
-  color: coral
-  font-size: 14px;
-  line-height: 128.571%;
-
-  transition: var(--transition);
-
-  @media screen and (min-width: 768px) {
-    font-size: 16px;
-    line-height: 150%;
-  }
-`;
-
-export const StyledLogOutBtnIcon = styled.svg`
-  width: 20px;
-  height: 20px;
-
-  stroke: coral;
 `;
