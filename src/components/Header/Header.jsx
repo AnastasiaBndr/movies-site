@@ -23,7 +23,7 @@ import { selectDetails } from '../../redux/currentMovie/currentMovieSelectors';
 const Header = ({ chooseMovieClick }) => {
   const location = useLocation();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const movies = useSelector(selectMovies) || [];
+  const movies = useSelector(selectMovies);
   const backLinkLocationRef = useRef(location.state?.from ?? '/');
   const [heroImage, setHeroImage] = useState({});
   const currentUser = useSelector(selectUser);
