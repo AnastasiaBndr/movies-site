@@ -7,41 +7,80 @@ import {
   MoviesList,
   PaginationButtons,
 } from './schemes.styled';
+import { useSelector } from 'react-redux';
+import { selectLanguage } from '../../redux/global/globalSlice';
 
 const MoviesListScheme = ({ movies, location }) => {
+  const language = useSelector(selectLanguage);
   return (
     <MoviesList>
-      {movies.map(movie => {
-        var mediaType = null;
-        if (movie.media_type === undefined) {
-          mediaType = 'movie';
-        }
-        return (
-          <MoviesItem key={movie.id || movie.globalId}>
-            <Link
-              to={
-                '/' +
-                (movie.media_type === undefined
-                  ? mediaType
-                  : movie.media_type) +
-                '/' +
-                (movie.id || movie.globalId)
+      {language === 'uk-UKR'
+        ? movies
+            .filter(movie =>
+              movie.overview.includes('і' || 'а' || 'н' || 'ф' || 'к' || 'п')
+            )
+            .map(movie => {
+              var mediaType = null;
+              if (movie.media_type === undefined) {
+                mediaType = 'movie';
               }
-              state={{ from: location }}
-            >
-              <ImageContainer>
-                <img
-                  src={`https://image.tmdb.org/t/p/w200${
-                    movie.poster_path || movie.poster
-                  }?api_key=${process.env.KEY}`}
-                  alt={`${movie.title}`}
-                />
-                <h3>{movie.title || movie.name}</h3>
-              </ImageContainer>
-            </Link>
-          </MoviesItem>
-        );
-      })}
+              return (
+                <MoviesItem key={movie.id || movie.globalId}>
+                  <Link
+                    to={
+                      '/' +
+                      (movie.media_type === undefined
+                        ? mediaType
+                        : movie.media_type) +
+                      '/' +
+                      (movie.id || movie.globalId)
+                    }
+                    state={{ from: location }}
+                  >
+                    <ImageContainer>
+                      <img
+                        src={`https://image.tmdb.org/t/p/w200${
+                          movie.poster_path || movie.poster
+                        }?api_key=${process.env.KEY}`}
+                        alt={`${movie.title}`}
+                      />
+                      <h3>{movie.title || movie.name}</h3>
+                    </ImageContainer>
+                  </Link>
+                </MoviesItem>
+              );
+            })
+        : movies.map(movie => {
+            var mediaType = null;
+            if (movie.media_type === undefined) {
+              mediaType = 'movie';
+            }
+            return (
+              <MoviesItem key={movie.id || movie.globalId}>
+                <Link
+                  to={
+                    '/' +
+                    (movie.media_type === undefined
+                      ? mediaType
+                      : movie.media_type) +
+                    '/' +
+                    (movie.id || movie.globalId)
+                  }
+                  state={{ from: location }}
+                >
+                  <ImageContainer>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w200${
+                        movie.poster_path || movie.poster
+                      }?api_key=${process.env.KEY}`}
+                      alt={`${movie.title}`}
+                    />
+                    <h3>{movie.title || movie.name}</h3>
+                  </ImageContainer>
+                </Link>
+              </MoviesItem>
+            );
+          })}
     </MoviesList>
   );
 };

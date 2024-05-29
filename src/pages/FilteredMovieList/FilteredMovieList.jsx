@@ -20,6 +20,8 @@ import {
   getFilteredMoviesByName,
   getGenresMovies,
 } from '../../redux/moviesList/moviesListOperations';
+import { useTranslation } from 'react-i18next';
+import { selectLanguage } from '../../redux/global/globalSlice';
 
 const FilteredMovieList = () => {
   const dispatch = useDispatch();
@@ -27,12 +29,16 @@ const FilteredMovieList = () => {
   const genres = useSelector(selectGenres) || [];
   const isLoading = useSelector(selectIsFetching);
   const totalPages = useSelector(selectTotalPages);
+  const { t } = useTranslation();
+  const language = useSelector(selectLanguage) || 'en-US';
 
   const movies = useSelector(selectMovies) || [];
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const [searchParams, setSearchParams] = useState({ id: params.get('id'), name: params.get('name'), genre: params.get('genre') });
   const [paginationButtonsVisible, setPaginationButtonsVisible] = useState(true);
+
+
 
   const getParams = (search) => {
     const params = new URLSearchParams(search);
@@ -56,39 +62,39 @@ const FilteredMovieList = () => {
 
   useEffect(() => {
     if (searchParams.id) {
-      dispatch(getFilteredMoviesByGenre({ page: 1, with_genres: searchParams.id }));
+      dispatch(getFilteredMoviesByGenre({ page: 1, with_genres: searchParams.id, language: language }));
 
     } else if (searchParams.name) {
-      dispatch(getFilteredMoviesByName({ page: 1, query: searchParams.name }));
+      dispatch(getFilteredMoviesByName({ page: 1, query: searchParams.name, language: language }));
     }
 
-    dispatch(getGenresMovies());
-  }, [dispatch, searchParams]);
+    dispatch(getGenresMovies({ language: language === 'en-US' ? 'en' : 'uk' }));
+  }, [dispatch, searchParams, language]);
 
 
   const nextPageOnClick = () => {
     if (searchParams.id)
-      dispatch(getFilteredMoviesByGenre({ page: page + 1, with_genres: searchParams.id }))
-    else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: page + 1, query: searchParams.name }))
+      dispatch(getFilteredMoviesByGenre({ page: page + 1, with_genres: searchParams.id, language: language }))
+    else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: page + 1, query: searchParams.name, language: language }))
   };
 
   const currentPageOnClick = e => {
     if (searchParams.id)
-      dispatch(getFilteredMoviesByGenre({ page: e.target.textContent, with_genres: searchParams.id, }));
-    else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: e.target.textContent, query: searchParams.name }))
+      dispatch(getFilteredMoviesByGenre({ page: e.target.textContent, with_genres: searchParams.id, language: language }));
+    else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: e.target.textContent, query: searchParams.name, language: language }))
 
   };
 
   const previousPageOnClick = () => {
     if (page > 1)
       if (searchParams.id)
-        dispatch(getFilteredMoviesByGenre({ page: page - 1, with_genres: searchParams.id, }));
-      else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: page - 1, query: searchParams.name }))
+        dispatch(getFilteredMoviesByGenre({ page: page - 1, with_genres: searchParams.id, language: language }));
+      else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: page - 1, query: searchParams.name, language: language }))
   };
 
   return (
     <MoviesListContainer>
-      <h1 className="movies-list-title">Search result for "{params.get('name') || params.get('genre')}"</h1>
+      <h1 className="movies-list-title">{t('list_page.search_result')} "{params.get('name') || params.get('genre')}"</h1>
       <GenresList>
         {genres.map(genre => {
           return (

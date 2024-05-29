@@ -5,20 +5,43 @@ import { Link, useParams } from "react-router-dom";
 import { selectMovies } from "../../redux/moviesList/moviesListSelectors";
 
 import { MoviesList, MoviesItem, ImageContainer, MoviesTitle } from './ShowSimilar.styled'
+import { useTranslation } from "react-i18next";
+import { selectLanguage } from "../../redux/global/globalSlice";
 
 const ShowSimilar = () => {
     const params = useParams();
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const movies = useSelector(selectMovies) || [];
+    const language = useSelector(selectLanguage);
 
     useEffect(() => {
-        dispatch(getSimilarMovies({ id: params.id, type: params.type }));
-    }, [dispatch, params.id, params.type]);
+        dispatch(getSimilarMovies({ id: params.id, type: params.type, language: language }));
+    }, [dispatch, params.id, params.type, language]);
 
     console.log(movies);
-    return (<><MoviesTitle>You may also like</MoviesTitle>
+    return (<><MoviesTitle>{t('current_movie_page.you_may_also_like')}</MoviesTitle>
         <MoviesList>
-            {movies.filter(movie => movie.poster_path).map(movie => {
+            {language === "uk-UKR" ? movies.filter(movie => movie.poster_path).filter(movie => movie.overview.includes('і' || 'а' || 'н' || 'ф' || 'к' || 'п')).map(movie => {
+                return (
+                    <MoviesItem key={movie.id || movie.globalId}>
+                        <Link
+                            to={'/' + (movie.media_type || params.type) + '/' +
+                                (movie.id || movie.globalId)
+                            }
+                        >
+                            <ImageContainer>
+                                <img
+                                    src={`https://image.tmdb.org/t/p/w200${movie.poster_path || movie.poster
+                                        }?api_key=${process.env.KEY}`}
+                                    alt={`${movie.title}`}
+                                />
+                                <h3>{movie.title || movie.name}</h3>
+                            </ImageContainer>
+                        </Link>
+                    </MoviesItem>
+                );
+            }) : movies.filter(movie => movie.poster_path).map(movie => {
                 return (
                     <MoviesItem key={movie.id || movie.globalId}>
                         <Link
@@ -38,7 +61,8 @@ const ShowSimilar = () => {
                     </MoviesItem>
                 );
             })}
-        </MoviesList></>);
+        </MoviesList></>
+    )
 }
 
 export default ShowSimilar;

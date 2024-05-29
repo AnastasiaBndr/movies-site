@@ -11,7 +11,7 @@ const Video = () => {
   useEffect(() => {
     const findTrailer = () => {
       if (videosMemo)
-        return videosMemo.filter(video => !video.name.includes('removed') && (video.name === 'Official Trailer' || video.name === 'Teaser Trailer'));
+        return videosMemo.filter(video => !video.name.includes('removed') && (video.name === 'Official Trailer' || video.name === 'Teaser Trailer' || video.name.includes('трейлер')));
       else return [];
     }
 
