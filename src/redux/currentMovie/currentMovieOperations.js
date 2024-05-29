@@ -11,16 +11,16 @@ const TheMovieDB = axios.create({
 });
 
 export const getVideos = thunkWrapper('movie/videos', data => {
-  const { id, type } = data;
-  return TheMovieDB.get(`/3/${type}/${id}/videos`);
+  const { id, type, language } = data;
+  return TheMovieDB.get(`/3/${type}/${id}/videos?language=${language}`);
 });
 
 export const getDetails = thunkWrapper('movie/details', data => {
-  const { id, type } = data;
-  return TheMovieDB.get(`/3/${type}/${id}`);
+  const { id, type, language } = data;
+  return TheMovieDB.get(`/3/${type}/${id}?language=${language}`);
 });
 
 export const getReviews = thunkWrapper('mobie/reviews', data => {
-  const { id, type } = data;
-  return TheMovieDB.get(`/3/${type}/${id}/reviews`);
+  const { id, type, language } = data;
+  return TheMovieDB.get(`/3/${type}/${id}/reviews?language=${language}`);
 });

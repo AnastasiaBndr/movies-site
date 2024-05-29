@@ -5,6 +5,7 @@ import { userMoviesReducer } from './userMovies/userMoviesSlice';
 import storage from 'redux-persist/lib/storage';
 import { authReducer } from './auth/authSlice';
 import { userReducer } from './users/usersSlice';
+import { globalReducer } from './global/globalSlice';
 import {
   persistStore,
   FLUSH,
@@ -22,10 +23,18 @@ const authPersistConfig = {
   whitelist: ['token'],
 };
 
+const globalPersistConfig = {
+  key: 'global',
+  version: 1,
+  storage,
+  whitelist: ['language'],
+};
+
 export const store = configureStore({
   reducer: {
     movie: moviesListReducer,
     currentMovie: currentMovieReducer,
+    global: persistReducer(globalPersistConfig, globalReducer),
     auth: persistReducer(authPersistConfig, authReducer),
     movies: userMoviesReducer,
     users: userReducer,
