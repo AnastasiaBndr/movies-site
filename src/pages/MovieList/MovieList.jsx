@@ -18,6 +18,8 @@ import {
   getMoviesList,
   getGenresMovies,
 } from '../../redux/moviesList/moviesListOperations';
+import { selectLanguage } from '../../redux/global/globalSlice';
+import { useTranslation } from 'react-i18next';
 
 const MovieList = () => {
   const dispatch = useDispatch();
@@ -25,28 +27,30 @@ const MovieList = () => {
   const genres = useSelector(selectGenres) || [];
   const isLoading = useSelector(selectIsFetching);
   const movies = useSelector(selectMovies) || [];
+  const { t } = useTranslation();
+  const language = useSelector(selectLanguage);
 
   useEffect(() => {
-    dispatch(getMoviesList({ page: page }));
-    dispatch(getGenresMovies());
-  }, [dispatch, page]);
+    dispatch(getMoviesList({ page: page, language: language }));
+    dispatch(getGenresMovies({ language: language === 'en-US' ? 'en' : 'uk' }));
+  }, [dispatch, page, language]);
 
   const nextPageOnClick = () => {
     dispatch(getMoviesList({ page: page + 1 }));
   };
 
   const currentPageOnClick = e => {
-    dispatch(getMoviesList({ page: e.target.textContent }));
+    dispatch(getMoviesList({ page: e.target.textContent, language: language }));
   };
 
   const previousPageOnClick = () => {
-    if (page > 1) dispatch(getMoviesList({ page: page - 1 }));
+    if (page > 1) dispatch(getMoviesList({ page: page - 1, language: language }));
   };
 
   const location = useLocation();
   return (
     <MoviesListContainer>
-      <h1 className="movies-list-title">Tranding now</h1>
+      <h1 className="movies-list-title">{t('list_page.tranding_now')}</h1>
       {genres && (
         <GenresList>
           {genres.map(genre => {
