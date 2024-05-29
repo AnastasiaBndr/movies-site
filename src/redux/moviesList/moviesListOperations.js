@@ -28,3 +28,13 @@ export const getFilteredMoviesByGenre = thunkWrapper(
     );
   }
 );
+
+export const getFilteredMoviesByName = thunkWrapper(
+  'movies/filteredByName',
+  data => {
+    const { page, query } = data;
+    return TheMovieDB.get(
+      `/3/search/movie?page=${page}&sort_by=popularity.desc&query=${query}`
+    );
+  }
+);

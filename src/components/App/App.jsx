@@ -113,11 +113,10 @@ export default function App() {
               chooseMovieClick={chooseMovieClick}
             />
             <Route
-              path="/filter/:type/:id"
+              path="/filter"
               element={
                 <FilteredMovieList
                   genre={genre}
-                  movies={trandingMovies}
                   chooseMovieClick={chooseMovieClick}
                   chooseGenreClick={chooseGenreClick}
                 />

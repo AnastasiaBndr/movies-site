@@ -3,6 +3,7 @@ import {
   getMoviesList,
   getGenresMovies,
   getFilteredMoviesByGenre,
+  getFilteredMoviesByName,
 } from './moviesListOperations';
 
 const initialState = {
@@ -13,6 +14,16 @@ const initialState = {
   totalPages: 0,
   error: null,
   genres: null,
+};
+
+const onPending = state => {
+  state.isLoading = true;
+  state.error = null;
+};
+
+const onRejected = (state, { payload }) => {
+  state.isLoading = false;
+  state.error = payload;
 };
 
 const moviesListSlice = createSlice({
@@ -28,29 +39,11 @@ const moviesListSlice = createSlice({
       state.isFetching = false;
     });
 
-    builder.addCase(getMoviesList.pending, (state, action) => {
-      state.isLoading = true;
-      state.isFetching = true;
-    });
-
-    builder.addCase(getMoviesList.rejected, (state, action) => {
-      state.error = action.payload.error;
-    });
-
     builder.addCase(getGenresMovies.fulfilled, (state, action) => {
       state.genres = action.payload.genres;
 
       state.isLoading = false;
       state.isFetching = false;
-    });
-
-    builder.addCase(getGenresMovies.pending, (state, action) => {
-      state.isLoading = true;
-      state.isFetching = true;
-    });
-
-    builder.addCase(getGenresMovies.rejected, (state, action) => {
-      state.error = action.payload.error;
     });
 
     builder.addCase(getFilteredMoviesByGenre.fulfilled, (state, action) => {
@@ -62,14 +55,17 @@ const moviesListSlice = createSlice({
       state.isFetching = false;
     });
 
-    builder.addCase(getFilteredMoviesByGenre.pending, (state, action) => {
-      state.isLoading = true;
-      state.isFetching = true;
+    builder.addCase(getFilteredMoviesByName.fulfilled, (state, action) => {
+      state.page = action.payload.page;
+      state.totalPages = action.payload.total_pages;
+      state.results = action.payload.results;
+
+      state.isLoading = false;
+      state.isFetching = false;
     });
 
-    builder.addCase(getFilteredMoviesByGenre.rejected, (state, action) => {
-      state.error = action.payload.error;
-    });
+    builder.addMatcher(action => action.type.endsWith('/pending'), onPending);
+    builder.addMatcher(action => action.type.endsWith('/rejected'), onRejected);
   },
 });
 

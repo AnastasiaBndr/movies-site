@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export const FormContainer = styled.div`
+  margin-block-start: 40px;
   display: flex;
   justify-content: center;
 
   @media screen and (min-width: 768px) {
-    transform: translateY(160px);
   }
 `;
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { CirclesWithBar } from 'react-loader-spinner';
 import { MoviesListScheme, PaginationsButtons } from 'components/Scheme/schemes';
@@ -7,6 +7,8 @@ import {
   selectPage,
   selectGenres,
   selectIsFetching,
+  selectMovies,
+  selectTotalPages
 } from '../../redux/moviesList/moviesListSelectors';
 import {
   MoviesListContainer,
@@ -15,72 +17,89 @@ import {
 } from '../MovieList/MovieList.styled';
 import {
   getFilteredMoviesByGenre,
+  getFilteredMoviesByName,
   getGenresMovies,
 } from '../../redux/moviesList/moviesListOperations';
 
 const FilteredMovieList = ({
-  movies,
-  genre,
   chooseGenreClick,
   chooseMovieClick,
 }) => {
   const dispatch = useDispatch();
-  const routeParams = useParams();
   const page = useSelector(selectPage);
   const genres = useSelector(selectGenres);
   const isLoading = useSelector(selectIsFetching);
+  const totalPages = useSelector(selectTotalPages);
+
+  const movies = useSelector(selectMovies) || [];
   const location = useLocation();
-  const [thisGenre, setThisGenre] = useState(
-    JSON.parse(localStorage.getItem('current_genre'))
-  );
+  const params = new URLSearchParams(location.search);
+  const [searchParams, setSearchParams] = useState({ id: params.get('id'), name: params.get('name'), genre: params.get('genre') });
+  const [paginationButtonsVisible, setPaginationButtonsVisible] = useState(true);
+
+  const getParams = (search) => {
+    const params = new URLSearchParams(search);
+    return {
+      id: params.get('id'),
+      name: params.get('name'),
+      genre: params.get('genre')
+    };
+  };
+
+  console.log(totalPages);
+  console.log(page);
 
   useEffect(() => {
-    dispatch(
-      getFilteredMoviesByGenre({ page: 1, with_genres: routeParams.id })
-    );
-    dispatch(getGenresMovies());
-    if (localStorage.getItem('current_genre') !== null) {
-      setThisGenre(JSON.parse(localStorage.getItem('current_genre')));
-    } else {
-      localStorage.setItem('current_genre', JSON.stringify(genre));
+    if (page >= totalPages) {
+      setPaginationButtonsVisible(false);
+    } else setPaginationButtonsVisible(true)
+  }, [page, totalPages])
+
+  useEffect(() => {
+    setSearchParams(getParams(location.search));
+  }, [location.search]);
+
+
+  useEffect(() => {
+    if (searchParams.id) {
+      dispatch(getFilteredMoviesByGenre({ page: 1, with_genres: searchParams.id }));
+      dispatch(getGenresMovies());
+    } else if (searchParams.name) {
+      dispatch(getFilteredMoviesByName({ page: 1, query: searchParams.name }));
+      dispatch(getGenresMovies());
     }
-  }, [dispatch, routeParams.id, genre]);
+  }, [dispatch, searchParams]);
+
 
   const nextPageOnClick = () => {
-    dispatch(
-      getFilteredMoviesByGenre({ page: page + 1, with_genres: thisGenre.id })
-    );
+    if (searchParams.id)
+      dispatch(getFilteredMoviesByGenre({ page: page + 1, with_genres: searchParams.id }))
+    else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: page + 1, query: searchParams.name }))
   };
 
   const currentPageOnClick = e => {
-    dispatch(
-      getFilteredMoviesByGenre({
-        page: e.target.textContent,
-        with_genres: routeParams.type,
-      })
-    );
+    if (searchParams.id)
+      dispatch(getFilteredMoviesByGenre({ page: e.target.textContent, with_genres: searchParams.id, }));
+    else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: e.target.textContent, query: searchParams.name }))
+
   };
 
   const previousPageOnClick = () => {
     if (page > 1)
-      dispatch(
-        getFilteredMoviesByGenre({
-          page: page - 1,
-          with_genres: routeParams.type,
-        })
-      );
+      if (searchParams.id)
+        dispatch(getFilteredMoviesByGenre({ page: page - 1, with_genres: searchParams.id, }));
+      else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: page - 1, query: searchParams.name }))
   };
 
-  if (movies === null) movies = [];
   return (
     <MoviesListContainer>
-      <h1 className="movies-list-title">{thisGenre.name}</h1>
+      <h1 className="movies-list-title">Search result for "{params.get('name') || params.get('genre')}"</h1>
       {genres && (
         <GenresList>
           {genres.map(genre => {
             return (
               <Link
-                to={'/filter/' + genre.name + '/' + genre.id + ''}
+                to={'/filter?genre=' + genre.name + '&id=' + genre.id + ''}
                 key={genre.id}
                 state={{ from: location }}
               >
@@ -116,12 +135,12 @@ const FilteredMovieList = ({
         />
       )}
 
-      <PaginationsButtons
+      {paginationButtonsVisible && <PaginationsButtons
         previousPageOnClick={previousPageOnClick}
         currentPageOnClick={currentPageOnClick}
         page={page}
         nextPageOnClick={nextPageOnClick}
-      />
+      />}
     </MoviesListContainer>
   );
 };

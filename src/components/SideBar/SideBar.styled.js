@@ -76,3 +76,39 @@ export const NavBar = styled.div`
     margin-bottom: 20px;
   }
 `;
+
+export const InputSideBar = styled.div`
+  margin-bottom: 40px;
+  position: relative;
+`;
+
+export const InputSideBarItem = styled.input`
+  all: unset;
+  border: 1px solid coral;
+
+  border-radius: 10px;
+  height: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  padding-left: 40px;
+`;
+
+export const SubmitButton = styled.button`
+  all: unset;
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  cursor: pointer;
+`;
+
+export const SearchSVG = styled.svg`
+cursor: pointer;
+width: 25px;
+height: 25px;
+fill: coral;
+stroke: coral;
+}};
+`;
