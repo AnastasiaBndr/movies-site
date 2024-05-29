@@ -3,17 +3,6 @@ import styled from 'styled-components';
 export const MoviePageContainer = styled.div`
   margin-top: 20px;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  @media screen and (min-width: 768px) {
-    align-items: start;
-    flex-direction: row;
-  }
-
-  @media screen and (min-width: 1440px) {
-  }
 `;
 
 export const Description = styled.div`
@@ -89,7 +78,20 @@ export const MovieTitle = styled.a`
   font-weight: 600;
   display: block;
 
-  margin-bottom: 40px;
+  margin-bottom: 10px;
+`;
+
+export const MovieTagLine = styled.p`
+  font-style: italic;
+  color: #404040cc;
+  &:before {
+    color: #ccc;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+  }
 `;
 
 export const GenresContainer = styled.ul`
@@ -134,5 +136,20 @@ export const FinishedButton = styled.button`
   &:focus {
     color: #222;
     background-color: coral;
+  }
+`;
+
+export const MovieImageDescrWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media screen and (min-width: 768px) {
+    align-items: start;
+    flex-direction: row;
+  }
+
+  @media screen and (min-width: 1440px) {
   }
 `;

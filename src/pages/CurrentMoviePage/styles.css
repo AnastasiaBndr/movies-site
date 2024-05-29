@@ -4,4 +4,7 @@
 
 .movie-links-item.active {
   color: coral;
+  border-bottom: 2px solid coral;
+  width: 100px;
+  text-align: center;
 }

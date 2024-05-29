@@ -21,13 +21,10 @@ import {
   getGenresMovies,
 } from '../../redux/moviesList/moviesListOperations';
 
-const FilteredMovieList = ({
-  chooseGenreClick,
-  chooseMovieClick,
-}) => {
+const FilteredMovieList = () => {
   const dispatch = useDispatch();
   const page = useSelector(selectPage);
-  const genres = useSelector(selectGenres);
+  const genres = useSelector(selectGenres) || [];
   const isLoading = useSelector(selectIsFetching);
   const totalPages = useSelector(selectTotalPages);
 
@@ -46,9 +43,6 @@ const FilteredMovieList = ({
     };
   };
 
-  console.log(totalPages);
-  console.log(page);
-
   useEffect(() => {
     if (page >= totalPages) {
       setPaginationButtonsVisible(false);
@@ -63,11 +57,12 @@ const FilteredMovieList = ({
   useEffect(() => {
     if (searchParams.id) {
       dispatch(getFilteredMoviesByGenre({ page: 1, with_genres: searchParams.id }));
-      dispatch(getGenresMovies());
+
     } else if (searchParams.name) {
       dispatch(getFilteredMoviesByName({ page: 1, query: searchParams.name }));
-      dispatch(getGenresMovies());
     }
+
+    dispatch(getGenresMovies());
   }, [dispatch, searchParams]);
 
 
@@ -94,26 +89,23 @@ const FilteredMovieList = ({
   return (
     <MoviesListContainer>
       <h1 className="movies-list-title">Search result for "{params.get('name') || params.get('genre')}"</h1>
-      {genres && (
-        <GenresList>
-          {genres.map(genre => {
-            return (
-              <Link
-                to={'/filter?genre=' + genre.name + '&id=' + genre.id + ''}
-                key={genre.id}
-                state={{ from: location }}
-              >
-                <GenresListItem onClick={() => chooseGenreClick(genre)}>
-                  {genre.name}
-                </GenresListItem>
-              </Link>
-            );
-          })}
-        </GenresList>
-      )}
+      <GenresList>
+        {genres.map(genre => {
+          return (
+            <Link
+              to={'/filter?genre=' + genre.name + '&id=' + genre.id + ''}
+              key={genre.id}
+              state={{ from: location }}
+            >
+              <GenresListItem>
+                {genre.name}
+              </GenresListItem>
+            </Link>
+          );
+        })}
+      </GenresList>
       <MoviesListScheme
         movies={movies}
-        chooseMovieClick={chooseMovieClick}
         location={location}
       />
       {isLoading && (

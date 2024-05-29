@@ -7,6 +7,7 @@ import {
   selectPage,
   selectGenres,
   selectIsFetching,
+  selectMovies
 } from '../../redux/moviesList/moviesListSelectors';
 import {
   MoviesListContainer,
@@ -18,11 +19,12 @@ import {
   getGenresMovies,
 } from '../../redux/moviesList/moviesListOperations';
 
-const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
+const MovieList = () => {
   const dispatch = useDispatch();
   const page = useSelector(selectPage);
-  const genres = useSelector(selectGenres);
+  const genres = useSelector(selectGenres) || [];
   const isLoading = useSelector(selectIsFetching);
+  const movies = useSelector(selectMovies) || [];
 
   useEffect(() => {
     dispatch(getMoviesList({ page: page }));
@@ -42,7 +44,6 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
   };
 
   const location = useLocation();
-  if (movies === null) movies = [];
   return (
     <MoviesListContainer>
       <h1 className="movies-list-title">Tranding now</h1>
@@ -52,10 +53,10 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
             return (
               <Link
                 key={genre.id}
-                to={'filter/' + genre.name + '/' + genre.id + ''}
+                to={'/filter?genre=' + genre.name + '&id=' + genre.id + ''}
                 state={{ from: location }}
               >
-                <GenresListItem onClick={() => chooseGenreClick(genre)}>
+                <GenresListItem>
                   {genre.name}
                 </GenresListItem>
               </Link>
@@ -65,7 +66,6 @@ const MovieList = ({ movies, chooseMovieClick, chooseGenreClick }) => {
       )}
       <MoviesListScheme
         movies={movies}
-        chooseMovieClick={chooseMovieClick}
         location={location}
       />
       {isLoading && (

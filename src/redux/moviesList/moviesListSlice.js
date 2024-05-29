@@ -4,6 +4,7 @@ import {
   getGenresMovies,
   getFilteredMoviesByGenre,
   getFilteredMoviesByName,
+  getSimilarMovies,
 } from './moviesListOperations';
 
 const initialState = {
@@ -56,6 +57,15 @@ const moviesListSlice = createSlice({
     });
 
     builder.addCase(getFilteredMoviesByName.fulfilled, (state, action) => {
+      state.page = action.payload.page;
+      state.totalPages = action.payload.total_pages;
+      state.results = action.payload.results;
+
+      state.isLoading = false;
+      state.isFetching = false;
+    });
+
+    builder.addCase(getSimilarMovies.fulfilled, (state, action) => {
       state.page = action.payload.page;
       state.totalPages = action.payload.total_pages;
       state.results = action.payload.results;

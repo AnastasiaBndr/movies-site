@@ -1,5 +1,5 @@
 // import { useState, useEffect } from 'react';
-import './styles.css';
+import './Cast.styled.js';
 
 const Cast = ({ movie, apiComponent }) => {
   // const [fullMovieInfo, setFullMovieInfo] = useState(null);
@@ -61,7 +61,7 @@ const Cast = ({ movie, apiComponent }) => {
   // }, [apiComponent, movie.id, movie.media_type]);
 
   return (
-    <>
+    <>cast!!
       {/* {fullMovieInfo ? (
         <ul className="cast-container">
           {fullMovieInfo.cast.map(actor => {

@@ -30,9 +30,26 @@ export const PageNumber = styled.p`
 
 export const GenresList = styled.ul`
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   padding-inline-start: 0;
+
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: coral;
+    height: 5px;
+  }
+
+  @media screen and (min-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `;
 export const GenresListItem = styled.li`
   display: block;

@@ -38,3 +38,8 @@ export const getFilteredMoviesByName = thunkWrapper(
     );
   }
 );
+
+export const getSimilarMovies = thunkWrapper('movies/similar', data => {
+  const { id, type } = data;
+  return TheMovieDB.get(`3/${type}/${id}/similar`);
+});

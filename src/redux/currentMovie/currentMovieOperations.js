@@ -19,3 +19,8 @@ export const getDetails = thunkWrapper('movie/details', data => {
   const { id, type } = data;
   return TheMovieDB.get(`/3/${type}/${id}`);
 });
+
+export const getReviews = thunkWrapper('mobie/reviews', data => {
+  const { id, type } = data;
+  return TheMovieDB.get(`/3/${type}/${id}/reviews`);
+});

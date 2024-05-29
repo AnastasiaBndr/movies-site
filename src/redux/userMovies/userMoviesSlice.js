@@ -14,8 +14,6 @@ const moviesSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(getUserMovies.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action);
-      console.log(action.payload);
       state.results = action.payload;
     });
 
