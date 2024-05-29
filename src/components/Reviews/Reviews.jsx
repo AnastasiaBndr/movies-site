@@ -5,15 +5,17 @@ import { selectReviews } from "../../redux/currentMovie/currentMovieSelectors";
 import { getReviews } from "../../redux/currentMovie/currentMovieOperations";
 
 import { ReviewItem, ReviewsContainer, Review, ReviewCreatedAt, ReviewAuthorUsername, ReviewAuthor } from "./Reviews.styled";
+import { selectLanguage } from "../../redux/global/globalSlice";
 
 const Reviews = () => {
     const reviews = useSelector(selectReviews) || [];
     const params = useParams();
     const dispatch = useDispatch();
+    const language = useSelector(selectLanguage) || 'en-US';
 
     useEffect(() => {
         dispatch(getReviews({ id: params.id, type: params.type }));
-    }, [dispatch, params.id, params.type])
+    }, [dispatch, params.id, params.type, language])
     console.log(reviews);
 
     function formatDate(dateString) {
@@ -27,9 +29,10 @@ const Reviews = () => {
         else if (diffDays <= 28) {
             return `${diffDays} days ago`;
         } else {
-
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return date.toLocaleDateString('en-US', options);
+            if (language === 'en-US')
+                return date.toLocaleDateString('en-US', options);
+            else return date.toLocaleDateString('uk-UA', options);
         }
     }
 

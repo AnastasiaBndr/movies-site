@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMovies } from '../../redux/moviesList/moviesListSelectors';
 import { refreshCurrentUser } from '../../redux/auth/authOperations';
 import { selectDetails } from '../../redux/currentMovie/currentMovieSelectors';
+import LanguageToggle from '../LanguageToggle';
+import { useTranslation } from 'react-i18next';
 
 const Header = ({ chooseMovieClick }) => {
   const location = useLocation();
@@ -29,6 +31,7 @@ const Header = ({ chooseMovieClick }) => {
   const currentUser = useSelector(selectUser);
   const dispatch = useDispatch();
   const details = useSelector(selectDetails);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const storedImage = localStorage.getItem('header_image');
@@ -68,6 +71,7 @@ const Header = ({ chooseMovieClick }) => {
   return (
     heroImage && <>
       <Hero>
+
         <HeroDescriptionContainer>
           <HeroTitle>{heroImage.name ?? heroImage.title}</HeroTitle>
           <WatchNow
@@ -89,7 +93,7 @@ const Header = ({ chooseMovieClick }) => {
                   fill="white"
                 />
               </PlayIcon>
-              Watch now!
+              {t('header.watch_now')}
             </Link>
           </WatchNow>
         </HeroDescriptionContainer>
@@ -104,19 +108,20 @@ const Header = ({ chooseMovieClick }) => {
           <></>
         ) : (
           <Link to={backLinkLocationRef.current}>
-            <GoBackButton>Go back</GoBackButton>
+            <GoBackButton>{t('header.go_back')}</GoBackButton>
           </Link>
         )}
         <NavBar>
           <NavLink className="nav-element" to="/">
-            Popular
+            {t('header.popular')}
           </NavLink>
           {!isLoggedIn && <NavLink className="nav-element" to="/login">
-            Log in
+            {t('header.login')}
           </NavLink>}
           {isLoggedIn && currentUser && <NavLink className="nav-element" to={`/current/user/${currentUser.username}`}>
             {currentUser.name}
           </NavLink>}
+          <LanguageToggle></LanguageToggle>
         </NavBar>
       </MainHeader>
     </>

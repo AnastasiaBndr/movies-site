@@ -6,10 +6,12 @@ import {
 } from './LogOutBtn.styled';
 
 import { logOut } from '../../redux/auth/authOperations';
+import { useTranslation } from 'react-i18next';
 
 const LogOutBtn = ({ white, filled, onClose }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleLogOut = async () => {
         await dispatch(logOut());
@@ -19,7 +21,7 @@ const LogOutBtn = ({ white, filled, onClose }) => {
 
     return (
         <StyledLogOutBtn onClick={handleLogOut}>
-            logout
+            {t('side_bar.logout')}
         </StyledLogOutBtn>
     );
 };

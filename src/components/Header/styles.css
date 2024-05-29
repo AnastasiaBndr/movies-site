@@ -1,4 +1,9 @@
-@import url(https://fonts.googleapis.com/css2?family=Dosis:wght@400;500&display=swap);
+@import url(https://fonts.cdnfonts.com/css/choco-cooky);
+
+@font-face {
+  font-family: 'Choco cooky';
+  src: url('https://fonts.cdnfonts.com/css/choco-cooky');
+}
 
 nav-element:focus,
 .nav-element:hover,
@@ -10,14 +15,15 @@ nav-element:focus,
   color: pink;
   font: inherit;
   cursor: pointer;
-  font-family: 'Dosis', sans-serif;
+
+  font-family: 'Choco cooky', sans-serif;
 
   transition: color 0.4s ease;
 }
 
 .watch-now {
   color: coral;
-  font-family: 'Dosis', sans-serif;
+  font-family: 'Choco cooky', sans-serif;
   font-weight: 600;
   font-size: 20px;
 

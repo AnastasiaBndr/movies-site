@@ -27,17 +27,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '../../redux/auth/authSelectors';
 import { addMovieToList, getUserMovies } from '../../redux/userMovies/userMoviesOperations';
 import ShowSimilar from '../../components/ShowSimilar';
+import { useTranslation } from 'react-i18next';
+import { selectLanguage } from '../../redux/global/globalSlice';
 
 const CurrentMoviePage = () => {
   const dispatch = useDispatch();
   const details = useSelector(selectDetails);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const routeParams = useParams();
+  const { t } = useTranslation();
+  const language = useSelector(selectLanguage) || 'en-US';
 
   useEffect(() => {
-    dispatch(getDetails({ id: routeParams.id, type: routeParams.type }));
-    dispatch(getVideos({ id: routeParams.id, type: routeParams.type }));
-  }, [dispatch, routeParams.id, routeParams.type]);
+    dispatch(getDetails({ id: routeParams.id, type: routeParams.type, language: language }));
+    dispatch(getVideos({ id: routeParams.id, type: routeParams.type, language: language }));
+  }, [dispatch, routeParams.id, routeParams.type, language]);
 
   const addToList = ({ target }) => {
 
@@ -69,10 +73,10 @@ const CurrentMoviePage = () => {
                 />
               </MovieImageWrapper>
               {isLoggedIn && <div>
-                <FinishedButton name="favorite" onClick={addToList}>Favorite</FinishedButton>
-                <FinishedButton name="watching" onClick={addToList}>Watching</FinishedButton>
-                <FinishedButton name="finished" onClick={addToList}>Finished</FinishedButton>
-                <FinishedButton name="dropped" onClick={addToList}>Dropped</FinishedButton>
+                <FinishedButton name="favorite" onClick={addToList}>{t('current_movie_page.favorite')}</FinishedButton>
+                <FinishedButton name="watching" onClick={addToList}>{t('current_movie_page.watching')}</FinishedButton>
+                <FinishedButton name="finished" onClick={addToList}>{t('current_movie_page.finished')}</FinishedButton>
+                <FinishedButton name="dropped" onClick={addToList}>{t('current_movie_page.dropped')}</FinishedButton>
               </div>}
             </div>
 
@@ -88,11 +92,11 @@ const CurrentMoviePage = () => {
               )}
               <img src={`https://image.tmdb.org/t/p/w500${details.backdrop_path}?api_key=${process.env.KEY}`} alt={details.name ?? details.title} />
               <p>{details.overview}</p>
-              <p>Language: {details.original_language}</p>
-              <p>First air date: {details.first_air_date}</p>
-              <p>Country: {details.origin_country}</p>
-              <p>Popularity: {details.popularity}</p>
-              <p>Vote average: {details.vote_average}</p>
+              <p>{t('current_movie_page.language')}: {details.original_language}</p>
+              <p>{t('current_movie_page.first_air_date')}: {details.first_air_date}</p>
+              <p>{t('current_movie_page.country')}: {details.origin_country}</p>
+              <p>{t('current_movie_page.popularity')}: {details.popularity}</p>
+              <p>{t('current_movie_page.vote_average')}: {details.vote_average}</p>
             </Description>
           </MovieImageDescrWrapper>
           <Cast></Cast>
@@ -100,10 +104,10 @@ const CurrentMoviePage = () => {
           <MoviePageNavigation>
 
             <NavLink className="movie-links-item" to={'reviews'}>
-              <h3>Reviews</h3>
+              <h3>{t('current_movie_page.reviews')}</h3>
             </NavLink>
             <NavLink className="movie-links-item" to={'trailer'}>
-              <h3>Trailer</h3>
+              <h3>{t('current_movie_page.trailer')}</h3>
             </NavLink>
           </MoviePageNavigation>
           <Outlet />

@@ -43,6 +43,7 @@ export const Button = styled.button`
   font: inherit;
   cursor: pointer;
   outline: inherit;
+  font-family: 'Choco cooky', sans-serif;
 
   &:hover {
     color: aqua;

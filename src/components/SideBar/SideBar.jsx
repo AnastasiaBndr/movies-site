@@ -8,12 +8,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import LogOutBtn from '../LogOutBtn/LogOutBtn';
 import './styles.css';
 import { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const SideBar = ({ className }) => {
     const currentUser = useSelector(selectUser);
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const [isOpen, setIsOpen] = useState(false);
     const headerRef = useRef(null);
@@ -97,7 +99,7 @@ const SideBar = ({ className }) => {
                                 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z"></path>
                             </SearchSVG>
                         </SubmitButton>
-                        <InputSideBarItem onChange={handleOnChange} placeholder='Search movie or tv'></InputSideBarItem>
+                        <InputSideBarItem onChange={handleOnChange} placeholder={t('side_bar.search_placeholder')}></InputSideBarItem>
                     </InputSideBar>
 
                     <TopPart>
@@ -112,28 +114,28 @@ const SideBar = ({ className }) => {
                             </UserAvatar>
                         </ProfilePicContainer>
                         {isLoggedIn && <p>{currentUser.name}</p>}
-                        {!isLoggedIn && <p>Here may be your name ;)</p>}
+                        {!isLoggedIn && <p>{t('side_bar.here_may_be_your_name')}</p>}
                         {isLoggedIn && <p>{currentUser.username}</p>}
                     </TopPart>
                     <BottomPart>
                         <NavBar>
                             <NavLink className="nav-element" to="/">
-                                Home
+                                {t('side_bar.home')}
                             </NavLink>
                             {isLoggedIn && currentUser && <NavLink className="nav-element" to={`/current/user/${currentUser.username}`}>
-                                Profile
+                                {t('side_bar.profile')}
                             </NavLink>}
                             {!isLoggedIn && !currentUser && <NavLink className="nav-element" to={`/login`}>
-                                Profile
+                                {t('side_bar.profile')}
                             </NavLink>}
                         </NavBar>
                         <NavBar>
-                            <NavLink className="nav-element" to="/">Favorite</NavLink>
-                            <NavLink className="nav-element" to="/">Dropped</NavLink>
-                            <NavLink className="nav-element" to="/">Watching</NavLink>
+                            <NavLink className="nav-element" to="/">{t('side_bar.favorite')}</NavLink>
+                            <NavLink className="nav-element" to="/">{t('side_bar.dropped')}</NavLink>
+                            <NavLink className="nav-element" to="/">{t('side_bar.watching')}</NavLink>
                         </NavBar>
                     </BottomPart>
-                    <LogOutBtn>LogOut</LogOutBtn>
+                    <LogOutBtn></LogOutBtn>
                 </MainPart>
             </div>
         </>

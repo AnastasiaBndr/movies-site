@@ -11,20 +11,23 @@ const TheMovieDB = axios.create({
 });
 
 export const getMoviesList = thunkWrapper('movies/list', data => {
-  const { page } = data;
-  return TheMovieDB.get(`/3/trending/all/week?language=en-US&page=${page}`);
+  const { page, language } = data;
+  return TheMovieDB.get(
+    `/3/trending/all/week?language=${language}&page=${page}`
+  );
 });
 
-export const getGenresMovies = thunkWrapper('movies/genres', () => {
-  return TheMovieDB.get('/3/genre/movie/list');
+export const getGenresMovies = thunkWrapper('movies/genres', data => {
+  const { language } = data;
+  return TheMovieDB.get(`/3/genre/movie/list?language=${language}`);
 });
 
 export const getFilteredMoviesByGenre = thunkWrapper(
   'movies/filteredByGenre',
   data => {
-    const { page, with_genres } = data;
+    const { page, with_genres, language } = data;
     return TheMovieDB.get(
-      `/3/discover/movie?page=${page}&sort_by=popularity.desc&with_genres=${with_genres}`
+      `/3/discover/movie?page=${page}&sort_by=popularity.desc&with_genres=${with_genres}&language=${language}`
     );
   }
 );
@@ -32,14 +35,14 @@ export const getFilteredMoviesByGenre = thunkWrapper(
 export const getFilteredMoviesByName = thunkWrapper(
   'movies/filteredByName',
   data => {
-    const { page, query } = data;
+    const { page, query, language } = data;
     return TheMovieDB.get(
-      `/3/search/movie?page=${page}&sort_by=popularity.desc&query=${query}`
+      `/3/search/movie?page=${page}&sort_by=popularity.desc&query=${query}&language=${language}`
     );
   }
 );
 
 export const getSimilarMovies = thunkWrapper('movies/similar', data => {
-  const { id, type } = data;
-  return TheMovieDB.get(`3/${type}/${id}/similar`);
+  const { id, type, language } = data;
+  return TheMovieDB.get(`3/${type}/${id}/similar?language=${language}`);
 });

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logIn, findByEmail } from '../../redux/auth/authOperations';
 import debounce from 'lodash.debounce';
+import { useTranslation } from 'react-i18next';
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const LogIn = () => {
   const [password, setPassword] = useState('');
   const [emailUsername, setEmailUsername] = useState('');
   const [errorAlert, setErrorAlert] = useState(false);
+  const { t } = useTranslation();
 
   const [enabled, setEnabled] = useState(false);
 
@@ -77,14 +79,14 @@ const LogIn = () => {
     <FormContainer>
       <StyledAlert errorAlert={errorAlert}>Error</StyledAlert>
       <StyledForm onSubmit={handleSubmit}>
-        <StyledLabel>Username or email:</StyledLabel>
+        <StyledLabel>{t('login.username_or')}:</StyledLabel>
         <StyledInput type="text" value={emailUsername} id="emailUsername" name="emailUsername" onChange={e => handleChange(e)} />
-        <StyledLabel>Password:</StyledLabel>
+        <StyledLabel>{t('register.password')}:</StyledLabel>
         <StyledInput type="password" value={password} id="password" name="password" onChange={(e) => handleChange(e)} />
         <ButtonAndLink>
-          <StyledButton type="submit" disabled={!enabled}>Login</StyledButton>
+          <StyledButton type="submit" disabled={!enabled}>{t('login.login')}</StyledButton>
           <NavLink className="nav-element" to="/register">
-            Don`t have an account?
+            {t('login.dont_have')}
           </NavLink>
         </ButtonAndLink>
 

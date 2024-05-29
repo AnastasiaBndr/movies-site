@@ -3,15 +3,19 @@ import { selectVideos } from '../../redux/currentMovie/currentMovieSelectors';
 import { useSelector } from 'react-redux';
 
 import { VideoFrame, NoTrailer } from './Video.styled';
+import { useTranslation } from 'react-i18next';
 const Video = () => {
   const videos = useSelector(selectVideos);
   const videosMemo = useMemo(() => videos, [videos]);
   const [trailer, setTrailer] = useState({});
+  const { t } = useTranslation();
+
+  console.log(videosMemo);
 
   useEffect(() => {
     const findTrailer = () => {
       if (videosMemo)
-        return videosMemo.filter(video => !video.name.includes('removed') && (video.name === 'Official Trailer' || video.name === 'Teaser Trailer'));
+        return videosMemo.filter(video => !video.name.includes('removed') && (video.name === 'Official Trailer' || video.name === 'Teaser Trailer' || video.name.includes('трейлер')));
       else return [];
     }
 
@@ -28,7 +32,7 @@ const Video = () => {
           src={`https://www.youtube.com/embed/${trailer.key}`}
         ></VideoFrame>
       ) : (
-        <NoTrailer>No trailer :(</NoTrailer>
+        <NoTrailer>{t('no_trailer')}</NoTrailer>
       )}
     </>
   );

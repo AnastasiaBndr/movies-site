@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/authOperations';
 import { selectError } from '../../redux/auth/authSelectors';
+import { useTranslation } from 'react-i18next';
 
 
 const Register = () => {
@@ -15,6 +16,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [enabled, setEnabled] = useState(false);
   const loggingError = useSelector(selectError);
+  const { t } = useTranslation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,18 +73,18 @@ const Register = () => {
   return (
     <FormContainer>
       <StyledForm onSubmit={handleSubmit}>
-        <StyledLabel>Name:</StyledLabel>
+        <StyledLabel>{t('register.name')}:</StyledLabel>
         <StyledInput type="text" value={name} id="name" name="name" onChange={e => handleChange(e)} />
-        <StyledLabel>Username:</StyledLabel>
+        <StyledLabel>{t('register.username')}:</StyledLabel>
         <StyledInput type="text" value={username} id="username" name="username" onChange={e => handleChange(e)} />
-        <StyledLabel>Email:</StyledLabel>
+        <StyledLabel>{t('register.email')}:</StyledLabel>
         <StyledInput type="email" value={email} id="email" name="email" onChange={e => handleChange(e)} />
-        <StyledLabel>Password:</StyledLabel>
+        <StyledLabel>{t('register.password')}:</StyledLabel>
         <StyledInput type="password" value={password} id="password" name="password" onChange={(e) => handleChange(e)} />
         <ButtonAndLink>
-          <StyledButton type="submit" disabled={!enabled}>Register</StyledButton>
+          <StyledButton type="submit" disabled={!enabled}>{t('register.register')}</StyledButton>
           <NavLink className="nav-element" to="/login">
-            Have an account?
+            {t('register.have_an_account')}
           </NavLink>
         </ButtonAndLink>
 
