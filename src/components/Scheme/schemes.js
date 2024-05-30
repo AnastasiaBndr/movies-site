@@ -141,10 +141,7 @@ const PaginationsButtons = ({
 };
 
 const UserFilteresListScheme = ({ movies, onDelete }) => {
-  var checkedMovies;
-  if (!movies) {
-    checkedMovies = [];
-  } else checkedMovies = movies;
+  const checkedMovies = Array.isArray(movies) ? movies : [];
   return (
     movies && (
       <MoviesList>
