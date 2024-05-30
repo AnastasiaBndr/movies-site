@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { CirclesWithBar } from 'react-loader-spinner';
 
 import Header from 'components/Header';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +10,6 @@ import { selectDetails } from '../../redux/currentMovie/currentMovieSelectors';
 import MainContainer from '../MainContainer/MainContainer';
 import LogIn from 'pages/LogIn';
 import Register from 'pages/Register';
-import UserPage from 'pages/UserPage/UserPage';
 import OtherUserPage from 'pages/OtherUsersPage'
 import SideBar from 'components/SideBar'
 import { refreshCurrentUser } from '../../redux/auth/authOperations';

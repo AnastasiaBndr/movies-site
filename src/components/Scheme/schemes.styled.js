@@ -4,6 +4,7 @@ export const MoviesItem = styled.li`
   width: 220px;
   list-style-type: none;
   margin: 10px;
+  position: relative;
 `;
 
 export const BackNextButtons = styled.button`
@@ -64,4 +65,10 @@ export const ImageContainer = styled.div`
     border-radius: 10%;
     margin: 0;
   }
+`;
+
+export const DeleteButton = styled.button`
+  position: absolute;
+  top: 10px;
+  left: 10px;
 `;

@@ -3,21 +3,23 @@ import { selectFilteredUserMovies } from "../../redux/userMovies/userMoviesSelec
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { getUserMovieList } from "../../redux/userMovies/userMoviesOperations";
-import { MoviesListScheme } from "components/Scheme/schemes";
+import { UserFilteresListScheme } from "components/Scheme/schemes";
 
 const UserList = () => {
     const dispatch = useDispatch();
     const filteredList = useSelector(selectFilteredUserMovies);
     const params = useParams();
 
-    console.log(filteredList);
+    const onDelete = () => {
+        console.log("hey ho")
+    }
 
     useEffect(() => {
         dispatch(getUserMovieList({ type: params.type }));
     }, [dispatch, params.type]);
 
 
-    return (filteredList && <MoviesListScheme movies={filteredList}></MoviesListScheme>);
+    return (filteredList && <UserFilteresListScheme movies={filteredList} onDelete={onDelete}></UserFilteresListScheme>);
 }
 
 export default UserList;

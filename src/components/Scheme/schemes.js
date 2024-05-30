@@ -6,6 +6,7 @@ import {
   ImageContainer,
   MoviesList,
   PaginationButtons,
+  DeleteButton,
 } from './schemes.styled';
 import { useSelector } from 'react-redux';
 import { selectLanguage } from '../../redux/global/globalSlice';
@@ -134,4 +135,42 @@ const PaginationsButtons = ({
   );
 };
 
-export { MoviesListScheme, PaginationsButtons };
+const UserFilteresListScheme = ({ movies, onDelete }) => {
+  return (
+    <MoviesList>
+      {movies.map(movie => {
+        var mediaType = null;
+        if (movie.media_type === undefined) {
+          mediaType = 'movie';
+        }
+        return (
+          <MoviesItem key={movie.id || movie.globalId}>
+            <DeleteButton onClick={onDelete}>Delete</DeleteButton>
+            <Link
+              to={
+                '/' +
+                (movie.media_type === undefined
+                  ? mediaType
+                  : movie.media_type) +
+                '/' +
+                (movie.id || movie.globalId)
+              }
+            >
+              <ImageContainer>
+                <img
+                  src={`https://image.tmdb.org/t/p/w200${
+                    movie.poster_path || movie.poster
+                  }?api_key=${process.env.KEY}`}
+                  alt={`${movie.title}`}
+                />
+                <h3>{movie.title || movie.name}</h3>
+              </ImageContainer>
+            </Link>
+          </MoviesItem>
+        );
+      })}
+    </MoviesList>
+  );
+};
+
+export { MoviesListScheme, PaginationsButtons, UserFilteresListScheme };
