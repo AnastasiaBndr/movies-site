@@ -17,13 +17,14 @@ const Cast = () => {
 
   useEffect(() => {
     dispatch(getCast({ id: params.id, type: params.type, language: language }));
-  })
+  }, [dispatch, params.id, params.type, language])
 
+  console.log(cast);
 
   return (
     cast && <>
       <h2>{t('current_movie_page.cast')}</h2>
-      <CastList className="cast-container">
+      <CastList>
         {cast.filter(actor => actor.profile_path).map(actor => {
           return (
             <CastItem className="cast-element" key={actor.id}>

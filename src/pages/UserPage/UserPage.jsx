@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { selectUser } from '../../redux/auth/authSelectors';
 import { findByUserName } from '../../redux/auth/authOperations';
 import {
@@ -10,7 +10,8 @@ import {
   UserName,
   UserRole,
   ProfilePicContainer,
-  List, ListItem
+  List,
+  ListItem,
 } from './UserPage.styled';
 import { deleteMovieFromList, getUserMovies } from '../../redux/userMovies/userMoviesOperations';
 import { selectUserMovies } from '../../redux/userMovies/userMoviesSelectors';
@@ -22,14 +23,22 @@ const UserPage = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectUser);
   const routeParams = useParams();
+
   const userMovies = useSelector(selectUserMovies) || [];
-  const listOptions = { "en-US": ['Favorite', "Dropped", "Watching", 'Finished'], "uk-UKR": ['Улюблене', 'Кинуте', 'Переглядаю', 'Завершено'] };
+  useMemo(() => {
+    dispatch(getUserMovies());
+  }, [dispatch]);
+
+  const listOptions = {
+    "en-US": ['Favorite', "Dropped", "Watching", 'Finished'],
+    "uk-UKR": ['Улюблене', 'Кинуте', 'Переглядаю', 'Завершено']
+  };
   const navigate = useNavigate();
   const language = useSelector(selectLanguage);
+
   useEffect(() => {
     const { username } = routeParams;
     dispatch(findByUserName({ username: username }));
-
   }, [dispatch, routeParams]);
 
   const onDelete = (movie) => {
@@ -37,20 +46,9 @@ const UserPage = () => {
     dispatch(getUserMovies());
   }
 
-  useEffect(() => {
-    dispatch(getUserMovies());
-  }, [dispatch, userMovies]);
-
-  useEffect(() => {
-
-  })
-
   const chooseList = (option) => {
     navigate(`${option}`);
   }
-
-
-
 
   return (
     currentUser &&
@@ -69,7 +67,6 @@ const UserPage = () => {
 
         <UserName>{currentUser.name}</UserName>
         <UserRole>{currentUser.username}</UserRole>
-
       </UserInfo>
 
       <List>
@@ -78,21 +75,18 @@ const UserPage = () => {
             <ListItem key={option} onClick={() => chooseList(option)}>
               {option}
             </ListItem>
-
           );
         }) : listOptions['uk-UKR'].map(option => {
           return (
             <ListItem key={option} onClick={() => chooseList(option)}>
               {option}
             </ListItem>
-
           );
         })}
       </List>
+
       {!routeParams.type ? (userMovies && <UserFilteresListScheme onDelete={onDelete} movies={userMovies}>
       </UserFilteresListScheme>) : <Outlet />}
-
-
     </Container>
   );
 };

@@ -9,7 +9,7 @@ import {
 const initialState = {
   movie: {},
   videos: null,
-  cast: {},
+  cast: [],
   reviews: {},
   details: null,
   isLoading: false,
