@@ -1,10 +1,10 @@
 @import-normalize; /* bring in normalize.css styles */
-@import url(https://fonts.cdnfonts.com/css/choco-cooky);
+@import url(https://www.fontsquirrel.com/fonts/alice);
 
 body {
-  font-family: -apple-system, 'Choco cooky', BlinkMacSystemFont, 'Segoe UI',
-    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: -apple-system, 'Alice', BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
 
   font-family: 'Choco cooky', sans-serif;
   padding: 0;
@@ -17,11 +17,11 @@ code {
 }
 
 button {
-  font-family: 'Choco cooky', sans-serif;
+  font-family: 'Alice', sans-serif;
 }
 
 a {
-  font-family: 'Choco cooky', sans-serif;
+  font-family: 'Alice', sans-serif;
   text-decoration: none;
   color: black;
   cursor: pointer;

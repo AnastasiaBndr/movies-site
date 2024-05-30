@@ -30,7 +30,6 @@ const moviesSlice = createSlice({
 
     builder.addCase(getUserMovieList.fulfilled, (state, action) => {
       state.isLoading = false;
-      console.log(action);
       state.resultsFiltered = action.payload;
     });
 

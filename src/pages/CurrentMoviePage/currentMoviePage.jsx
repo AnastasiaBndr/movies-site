@@ -99,7 +99,7 @@ const CurrentMoviePage = () => {
               <p>{t('current_movie_page.vote_average')}: {details.vote_average}</p>
             </Description>
           </MovieImageDescrWrapper>
-          <Cast></Cast>
+          <Cast movie={details}></Cast>
 
           <MoviePageNavigation>
 

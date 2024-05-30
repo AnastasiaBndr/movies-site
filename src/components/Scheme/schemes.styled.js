@@ -68,7 +68,42 @@ export const ImageContainer = styled.div`
 `;
 
 export const DeleteButton = styled.button`
+  all: unset;
+  width: 25px;
+  height: 25px;
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 8px;
+  left: 78%;
+  cursor: pointer;
+  background-color: black;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+
+  transition: color 0.2s ease;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: coral;
+    svg {
+      stroke: black;
+      fill: black;
+    }
+  }
+
+  &:focus {
+    background-color: coral;
+    svg {
+      stroke: black;
+      fill: black;
+    }
+  }
+`;
+
+export const SvgDelete = styled.svg`
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  stroke: coral;
+  fill: coral;
 `;

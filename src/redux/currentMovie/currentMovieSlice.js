@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getVideos, getDetails, getReviews } from './currentMovieOperations';
+import {
+  getVideos,
+  getDetails,
+  getReviews,
+  getCast,
+} from './currentMovieOperations';
 
 const initialState = {
   movie: {},
@@ -43,6 +48,12 @@ const currentMovieSlice = createSlice({
     builder.addCase(getReviews.fulfilled, (state, action) => {
       state.reviews = action.payload.results;
 
+      state.isLoading = false;
+      state.isFetching = false;
+    });
+
+    builder.addCase(getCast.fulfilled, (state, action) => {
+      state.cast = action.payload.cast;
       state.isLoading = false;
       state.isFetching = false;
     });

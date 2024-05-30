@@ -41,8 +41,9 @@ i18n
           current_movie_page: {
             favorite: 'Favorite',
             dropped: 'Dropped',
+            cast: 'Credits',
             watching: 'Watching',
-            finished: 'finished',
+            finished: 'Finished',
             language: 'Language',
             popularity: 'Popularity',
             vote_average: 'Vote average',
@@ -101,6 +102,7 @@ i18n
           current_movie_page: {
             favorite: 'Улюблене',
             dropped: 'Покинуто',
+            cast: 'Актори',
             watching: 'Переглядаю',
             finished: 'Завершено',
             language: 'Мова оригіналу',

@@ -1,8 +1,8 @@
-@import url(https://fonts.cdnfonts.com/css/choco-cooky);
+@import url(https://www.fontsquirrel.com/fonts/alice);
 
 @font-face {
-  font-family: 'Choco cooky';
-  src: url('https://fonts.cdnfonts.com/css/choco-cooky');
+  font-family: 'Alice';
+  src: url('https://www.fontsquirrel.com/fonts/alice');
 }
 
 nav-element:focus,
@@ -16,14 +16,14 @@ nav-element:focus,
   font: inherit;
   cursor: pointer;
 
-  font-family: 'Choco cooky', sans-serif;
+  font-family: 'Alice', sans-serif;
 
   transition: color 0.4s ease;
 }
 
 .watch-now {
   color: coral;
-  font-family: 'Choco cooky', sans-serif;
+  font-family: 'Alice', sans-serif;
   font-weight: 600;
   font-size: 20px;
 

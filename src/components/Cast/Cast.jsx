@@ -1,88 +1,45 @@
-// import { useState, useEffect } from 'react';
+import { CastList, CastItem, ImageContainer } from './Cast.styled.js';
+import { useDispatch, useSelector } from 'react-redux';
 import './Cast.styled.js';
+import { getCast } from '../../redux/currentMovie/currentMovieOperations.js';
+import { selectLanguage } from '../../redux/global/globalSlice.js';
+import { useEffect } from 'react';
+import { selectCast } from '../../redux/currentMovie/currentMovieSelectors.js';
+import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-const Cast = ({ movie, apiComponent }) => {
-  // const [fullMovieInfo, setFullMovieInfo] = useState(null);
+const Cast = () => {
+  const cast = useSelector(selectCast) || [];
+  const language = useSelector(selectLanguage);
+  const dispatch = useDispatch({});
+  const params = useParams();
+  const { t } = useTranslation();
 
-  // useEffect(() => {
-  //   async function fetchMovieInfo() {
-  //     if (movie.media_type === 'movie') {
-  //       const movieInfo = await apiComponent.fetchMoviesById(
-  //         movie.id,
-  //         apiComponent.links.details,
-  //         apiComponent.params.credits
-  //       );
+  useEffect(() => {
+    dispatch(getCast({ id: params.id, type: params.type, language: language }));
+  })
 
-  //       const updatedCast = movieInfo.cast
-  //         .map(actor => {
-  //           if (actor.profile_path !== null) {
-  //             actor.ImageFullPath = `https://image.tmdb.org/t/p/w200${
-  //               actor.profile_path
-  //             }?api_key=${apiComponent.getkey()}`;
-  //           } else {
-  //             console.log(process.env.PUBLIC_URL);
-  //             actor.ImageFullPath =
-  //               'http://localhost:3000/goit-react-hw-05-movies/static/media/profile_image_not_found.d3395e8a7ba4b7bc3a15.jpg';
-  //           }
-  //           return actor;
-  //         })
-  //         .filter(actor => actor.profile_path !== null);
-
-  //       movieInfo.cast = updatedCast;
-
-  //       setFullMovieInfo(movieInfo);
-  //       console.log(movieInfo);
-  //     } else if (movie.media_type === 'tv') {
-  //       const movieInfo = await apiComponent.fetchMoviesById(
-  //         movie.id,
-  //         apiComponent.links.seriesDetails,
-  //         apiComponent.params.credits
-  //       );
-
-  //       const updatedCast = movieInfo.cast
-  //         .map(actor => {
-  //           if (actor.profile_path !== null) {
-  //             actor.ImageFullPath = `https://image.tmdb.org/t/p/w200${
-  //               actor.profile_path
-  //             }?api_key=${apiComponent.getkey()}`;
-  //           }
-  //           return actor;
-  //         })
-  //         .filter(actor => actor.profile_path !== null);
-
-  //       movieInfo.cast = updatedCast;
-
-  //       setFullMovieInfo(movieInfo);
-  //       console.log(movieInfo);
-  //     }
-  //   }
-
-  //   fetchMovieInfo();
-  // }, [apiComponent, movie.id, movie.media_type]);
 
   return (
-    <>cast!!
-      {/* {fullMovieInfo ? (
-        <ul className="cast-container">
-          {fullMovieInfo.cast.map(actor => {
-            return (
-              <li className="cast-element" key={actor.id}>
-                <img
-                  className="actor-profile-picture"
-                  src={actor.ImageFullPath}
-                  alt={actor.name}
-                />
-
-                <p>"{actor.character}"</p>
-                <p>{actor.name}</p>
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <p>No cast info(</p>
-      )} */}
+    cast && <>
+      <h2>{t('current_movie_page.cast')}</h2>
+      <CastList className="cast-container">
+        {cast.filter(actor => actor.profile_path).map(actor => {
+          return (
+            <CastItem className="cast-element" key={actor.id}>
+              <ImageContainer><img
+                className="actor-profile-picture"
+                src={`https://image.tmdb.org/t/p/w200${actor.profile_path}?api_key=${process.env.KEY}`}
+                alt={actor.name}
+              />
+                <h3>"{actor.character}"</h3>
+                <h3>{actor.name}</h3></ImageContainer>
+            </CastItem>
+          );
+        })}
+      </CastList>
     </>
+
   );
 };
 

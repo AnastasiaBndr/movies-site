@@ -20,7 +20,12 @@ export const getDetails = thunkWrapper('movie/details', data => {
   return TheMovieDB.get(`/3/${type}/${id}?language=${language}`);
 });
 
-export const getReviews = thunkWrapper('mobie/reviews', data => {
+export const getReviews = thunkWrapper('movie/reviews', data => {
   const { id, type, language } = data;
   return TheMovieDB.get(`/3/${type}/${id}/reviews?language=${language}`);
+});
+
+export const getCast = thunkWrapper('movie/cast', data => {
+  const { id, type, language } = data;
+  return TheMovieDB.get(`/3/${type}/${id}/credits?language=${language}`);
 });
