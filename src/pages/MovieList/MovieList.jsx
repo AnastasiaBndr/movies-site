@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CirclesWithBar } from 'react-loader-spinner';
 import { MoviesListScheme, PaginationsButtons } from 'components/Scheme/schemes';
 import {
   selectPage,
@@ -20,6 +19,7 @@ import {
 } from '../../redux/moviesList/moviesListOperations';
 import { useTranslation } from 'react-i18next';
 import { selectLanguage } from '../../redux/global/globalSlice';
+import Loader from 'components/Loader/Loader';
 
 const MovieList = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,9 @@ const MovieList = () => {
   const isLoading = useSelector(selectIsFetching);
   const movies = useSelector(selectMovies) || [];
   const { t } = useTranslation();
-  const language = useSelector(selectLanguage) || 'en-US';
+  const language = useSelector(selectLanguage);
+
+  console.log(language);
 
   useEffect(() => {
     dispatch(getMoviesList({ page: page, language: language }));
@@ -48,7 +50,7 @@ const MovieList = () => {
   };
 
   const location = useLocation();
-  return (
+  return (isLoading ? <Loader></Loader> :
     <MoviesListContainer>
       <h1 className="movies-list-title">{t('list_page.tranding_now')}</h1>
       {genres && (
@@ -72,24 +74,6 @@ const MovieList = () => {
         movies={movies}
         location={location}
       />
-      {isLoading && (
-        <CirclesWithBar
-          height="100"
-          width="100"
-          color="#4fa94d"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-          outerCircleColor=""
-          innerCircleColor=""
-          barColor=""
-          ariaLabel="circles-with-bar-loading"
-          position="absolute"
-          top="50%"
-          left="50%"
-          style={{ transform: 'translate(-50%, -50%)' }}
-        />
-      )}
       <PaginationsButtons
         previousPageOnClick={previousPageOnClick}
         currentPageOnClick={currentPageOnClick}

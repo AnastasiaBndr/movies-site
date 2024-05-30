@@ -50,7 +50,7 @@ const Header = ({ chooseMovieClick }) => {
 
   useEffect(() => {
     const storedImage = localStorage.getItem('header_image');
-    if (!storedImage) {
+    if (!storedImage && movies) {
       if (movies.length > 0) {
         let image = null;
         while (!image || !image.media_type) {

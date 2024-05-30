@@ -19,7 +19,6 @@ const ShowSimilar = () => {
         dispatch(getSimilarMovies({ id: params.id, type: params.type, language: language }));
     }, [dispatch, params.id, params.type, language]);
 
-    console.log(movies);
     return (<><MoviesTitle>{t('current_movie_page.you_may_also_like')}</MoviesTitle>
         <MoviesList>
             {language === 'uk-UKR' ? movies.filter(movie => movie.poster_path && movie.overview.includes('а' || 'і' || 'ф' || 'н' || 'п' || 'к')).map(movie => {

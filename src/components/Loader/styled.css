@@ -1,0 +1,14 @@
+.loader-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Змініть значення за потребою */
+}
+
+@media (min-width: 768px) {
+  .loader-wrapper {
+    left: calc(50% + 200px);
+    transform: translateX(-50%);
+  }
+}

@@ -24,7 +24,9 @@ export const register = thunkWrapperForUser('auth/register', data => {
 
 export const logIn = createAsyncThunk('auth/logIn', async (data, thunkAPI) => {
   try {
+    console.log('Sending request:', data);
     const res = await instance.post('auth/auth', data);
+    console.log('Received response:', res.data);
     token.set(res.data.token);
     return res.data;
   } catch (error) {

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { selectUser } from '../../redux/auth/authSelectors';
@@ -16,12 +16,13 @@ import {
 import { getUserMovies } from '../../redux/userMovies/userMoviesOperations';
 import { selectUserMovies } from '../../redux/userMovies/userMoviesSelectors';
 
-const UserPage = ({ chooseMovieClick }) => {
+const UserPage = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(selectUser);
   const routeParams = useParams();
   const userMovies = useSelector(selectUserMovies);
-  const listOptions = ['favorite', "dropped", "watching", 'finished']
+  const listOptions = ['favorite', "dropped", "watching", 'finished'];
+  const navigate = useNavigate();
   useEffect(() => {
     const { username } = routeParams;
     dispatch(findByUserName({ username: username }));
@@ -36,8 +37,9 @@ const UserPage = ({ chooseMovieClick }) => {
     , [dispatch, currentUser]);
 
   const chooseList = (option) => {
-
+    navigate(`${option}`);
   }
+
 
   return (
     currentUser &&
@@ -58,6 +60,7 @@ const UserPage = ({ chooseMovieClick }) => {
         <UserRole>{currentUser.username}</UserRole>
 
       </UserInfo>
+
       <List>
         {listOptions.map(option => {
           return (
@@ -68,8 +71,10 @@ const UserPage = ({ chooseMovieClick }) => {
           );
         })}
       </List>
-      {userMovies && <MoviesListScheme movies={userMovies} chooseMovieClick={chooseMovieClick}>
-      </MoviesListScheme>}
+      {!routeParams.type ? (userMovies && <MoviesListScheme movies={userMovies}>
+      </MoviesListScheme>) : <Outlet />}
+
+
     </Container>
   );
 };

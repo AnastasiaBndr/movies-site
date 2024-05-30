@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CirclesWithBar } from 'react-loader-spinner';
+import Loader from 'components/Loader/Loader';
 import { MoviesListScheme, PaginationsButtons } from 'components/Scheme/schemes';
 import {
   selectPage,
@@ -90,7 +90,7 @@ const FilteredMovieList = () => {
       else if (searchParams.name) dispatch(getFilteredMoviesByName({ page: page - 1, query: searchParams.name, language: language }))
   };
 
-  return (
+  return (isLoading ? <Loader></Loader> :
     <MoviesListContainer>
       <h1 className="movies-list-title">{t('list_page.search_result')} "{params.get('name') || params.get('genre')}"</h1>
       <GenresList>
@@ -112,25 +112,6 @@ const FilteredMovieList = () => {
         movies={movies}
         location={location}
       />
-      {isLoading && (
-        <CirclesWithBar
-          height="100"
-          width="100"
-          color="#4fa94d"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-          outerCircleColor=""
-          innerCircleColor=""
-          barColor=""
-          ariaLabel="circles-with-bar-loading"
-          position="absolute"
-          top="50%"
-          left="50%"
-          style={{ transform: 'translate(-50%, -50%)' }}
-        />
-      )}
-
       {paginationButtonsVisible && <PaginationsButtons
         previousPageOnClick={previousPageOnClick}
         currentPageOnClick={currentPageOnClick}

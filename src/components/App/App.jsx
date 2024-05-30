@@ -5,12 +5,10 @@ import { lazy, Suspense } from 'react';
 import { CirclesWithBar } from 'react-loader-spinner';
 
 import Header from 'components/Header';
-import MovieList from 'pages/MovieList';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMovies } from '../../redux/moviesList/moviesListSelectors';
 import { selectDetails } from '../../redux/currentMovie/currentMovieSelectors';
 import MainContainer from '../MainContainer/MainContainer';
-import FilteredMovieList from 'pages/FilteredMovieList';
 import LogIn from 'pages/LogIn';
 import Register from 'pages/Register';
 import UserPage from 'pages/UserPage/UserPage';
@@ -20,7 +18,14 @@ import { refreshCurrentUser } from '../../redux/auth/authOperations';
 import { AppContainer } from './App.styled';
 import Reviews from '../Reviews';
 import Video from '../Videos';
+import { setLanguage } from '../../redux/global/globalSlice';
+import UserList from 'pages/UserList/UserList';
+import Loader from 'components/Loader/Loader';
+import MovieList from 'pages/MovieList/MovieList';
+import FilteredMovieList from 'pages/FilteredMovieList/FilteredMovieList';
+
 const CurrentMoviePageLazy = lazy(() => import('pages/CurrentMoviePage'));
+const UserPageLazy = lazy(() => import('pages/UserPage'));
 
 export default function App() {
   const trandingMovies = useSelector(selectMovies);
@@ -29,6 +34,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setLanguage('en-US'));
     dispatch(refreshCurrentUser());
 
   }, [dispatch]);
@@ -36,22 +42,7 @@ export default function App() {
   return (
     <Suspense
       fallback={
-        <CirclesWithBar
-          height="100"
-          width="100"
-          color="#4fa94d"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-          outerCircleColor=""
-          innerCircleColor=""
-          barColor=""
-          ariaLabel="circles-with-bar-loading"
-          position="absolute"
-          top="50%"
-          left="50%"
-          style={{ transform: 'translate(-50%, -50%)' }}
-        />
+        <Loader />
       }
     >
       <Header movies={trandingMovies} />
@@ -60,56 +51,15 @@ export default function App() {
         </SideBar>
         <MainContainer>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <MovieList
-                  movies={trandingMovies}
-                />
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <LogIn
-                />
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <Register
-                />
-              }
-            />
-            <Route
-              path="/user/:username"
-              element={
-                <OtherUserPage
-                />
-
-              }
-            />
-            <Route
-              path="current/user/:username"
-              element={
-                <UserPage
-                />
-              }
-            />
-            <Route
-              path="/filter"
-              element={
-                <FilteredMovieList
-                />
-              }
-            ></Route>
-            <Route
-              path=":type/:id"
-              element={
-                <CurrentMoviePageLazy details={details} />
-              }
-            >
+            <Route path="/" element={<MovieList movies={trandingMovies} />} />
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/user/:username" element={<OtherUserPage />} />
+            <Route path="current/user/:username" element={<UserPageLazy />}>
+              <Route path=":type" element={<UserList></UserList>}></Route>
+            </Route>
+            <Route path="/filter" element={<FilteredMovieList />}></Route>
+            <Route path=":type/:id" element={<CurrentMoviePageLazy details={details} />}>
               <Route path="reviews" element={<Reviews></Reviews>}> </Route>
               <Route path="trailer" element={<Video></Video>}> </Route>
             </Route>
