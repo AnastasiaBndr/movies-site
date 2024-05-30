@@ -136,7 +136,7 @@ const SideBar = ({ className }) => {
                             <NavLink className="nav-element" to={`/current/user/${currentUser.username}/finished`}>{t('side_bar.finished')}</NavLink>
                         </NavBar>
                     </BottomPart>
-                    <LogOutBtn></LogOutBtn>
+                    {isLoggedIn && <LogOutBtn></LogOutBtn>}
                 </MainPart>
             </div>
         </>

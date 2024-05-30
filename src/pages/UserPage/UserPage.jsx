@@ -47,7 +47,25 @@ const UserPage = () => {
   }
 
   const chooseList = (option) => {
-    navigate(`${option}`);
+    switch (option) {
+      case 'Улюблене': {
+        navigate('favorite');
+        return 'favorite';
+      }
+      case 'Кинуте': {
+        navigate('dropped');
+        return 'favorite';
+      }
+      case 'Переглядаю': {
+        navigate('watching');
+        return 'favorite';
+      }
+      case 'Звершено': {
+        navigate('finished');
+        return 'favorite';
+      }
+      default: navigate(`${option.toLowerCase()}`);
+    }
   }
 
   return (
