@@ -141,10 +141,14 @@ const PaginationsButtons = ({
 };
 
 const UserFilteresListScheme = ({ movies, onDelete }) => {
+  var checkedMovies;
+  if (!movies) {
+    checkedMovies = [];
+  } else checkedMovies = movies;
   return (
     movies && (
       <MoviesList>
-        {movies.map(movie => {
+        {checkedMovies.map(movie => {
           const mediaType =
             movie.media_type === undefined ? 'movie' : movie.media_type;
           return (
