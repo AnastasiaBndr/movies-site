@@ -129,12 +129,13 @@ const SideBar = ({ className }) => {
                                 {t('side_bar.profile')}
                             </NavLink>}
                         </NavBar>
-                        <NavBar>
+                        {isLoggedIn && <NavBar>
                             <NavLink className="nav-element" to={`/current/user/${currentUser.username}/favorite`}>{t('side_bar.favorite')}</NavLink>
                             <NavLink className="nav-element" to={`/current/user/${currentUser.username}/dropped`}>{t('side_bar.dropped')}</NavLink>
                             <NavLink className="nav-element" to={`/current/user/${currentUser.username}/watching`}>{t('side_bar.watching')}</NavLink>
                             <NavLink className="nav-element" to={`/current/user/${currentUser.username}/finished`}>{t('side_bar.finished')}</NavLink>
-                        </NavBar>
+                        </NavBar>}
+
                     </BottomPart>
                     {isLoggedIn && <LogOutBtn></LogOutBtn>}
                 </MainPart>
