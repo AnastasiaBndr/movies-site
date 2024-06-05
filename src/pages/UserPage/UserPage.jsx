@@ -1,8 +1,7 @@
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { selectUser } from '../../redux/auth/authSelectors';
-import { findByUserName } from '../../redux/auth/authOperations';
 import {
   Container,
   UserAvatar,
@@ -38,11 +37,6 @@ const UserPage = () => {
   };
   const navigate = useNavigate();
   const language = useSelector(selectLanguage);
-
-  useEffect(() => {
-    const { username } = routeParams;
-    dispatch(findByUserName({ username: username }));
-  }, [dispatch, routeParams]);
 
   const onDelete = movie => {
     dispatch(deleteMovieFromList({ id: movie._id }));
