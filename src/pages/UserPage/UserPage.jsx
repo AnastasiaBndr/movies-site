@@ -13,7 +13,10 @@ import {
   List,
   ListItem,
 } from './UserPage.styled';
-import { deleteMovieFromList, getUserMovies } from '../../redux/userMovies/userMoviesOperations';
+import {
+  deleteMovieFromList,
+  getUserMovies,
+} from '../../redux/userMovies/userMoviesOperations';
 import { selectUserMovies } from '../../redux/userMovies/userMoviesSelectors';
 
 import { UserFilteresListScheme } from 'components/Scheme/schemes';
@@ -30,8 +33,8 @@ const UserPage = () => {
   }, [dispatch]);
 
   const listOptions = {
-    "en-US": ['Favorite', "Dropped", "Watching", 'Finished'],
-    "uk-UKR": ['Улюблене', 'Кинуте', 'Переглядаю', 'Завершено']
+    'en-US': ['Favorite', 'Dropped', 'Watching', 'Finished'],
+    'uk-UKR': ['Улюблене', 'Кинуте', 'Переглядаю', 'Завершено'],
   };
   const navigate = useNavigate();
   const language = useSelector(selectLanguage);
@@ -41,12 +44,12 @@ const UserPage = () => {
     dispatch(findByUserName({ username: username }));
   }, [dispatch, routeParams]);
 
-  const onDelete = (movie) => {
+  const onDelete = movie => {
     dispatch(deleteMovieFromList({ id: movie._id }));
     dispatch(getUserMovies());
-  }
+  };
 
-  const chooseList = (option) => {
+  const chooseList = option => {
     switch (option) {
       case 'Улюблене': {
         navigate('favorite');
@@ -60,52 +63,63 @@ const UserPage = () => {
         navigate('watching');
         return 'favorite';
       }
-      case 'Звершено': {
+      case 'Завершено': {
         navigate('finished');
         return 'favorite';
       }
-      default: navigate(`${option.toLowerCase()}`);
+      default:
+        navigate(`${option.toLowerCase()}`);
     }
-  }
+  };
 
   return (
-    currentUser &&
-    <Container>
-      <UserInfo>
-        <ProfilePicContainer>
-          <UserAvatar fill="#494949">
-            <use
-              xlinkHref={
-                process.env.PUBLIC_URL +
-                '/images/sprite.svg#icon-avatar'
-              }
-            ></use>
-          </UserAvatar>
-        </ProfilePicContainer>
+    currentUser && (
+      <Container>
+        <UserInfo>
+          <ProfilePicContainer>
+            <UserAvatar fill="#494949">
+              <use
+                xlinkHref={
+                  process.env.PUBLIC_URL + '/images/sprite.svg#icon-avatar'
+                }
+              ></use>
+            </UserAvatar>
+          </ProfilePicContainer>
 
-        <UserName>{currentUser.name}</UserName>
-        <UserRole>{currentUser.username}</UserRole>
-      </UserInfo>
+          <UserName>{currentUser.name}</UserName>
+          <UserRole>{currentUser.username}</UserRole>
+        </UserInfo>
 
-      <List>
-        {language === 'en-US' ? listOptions['en-US'].map(option => {
-          return (
-            <ListItem key={option} onClick={() => chooseList(option)}>
-              {option}
-            </ListItem>
-          );
-        }) : listOptions['uk-UKR'].map(option => {
-          return (
-            <ListItem key={option} onClick={() => chooseList(option)}>
-              {option}
-            </ListItem>
-          );
-        })}
-      </List>
+        <List>
+          {language === 'en-US'
+            ? listOptions['en-US'].map(option => {
+                return (
+                  <ListItem key={option} onClick={() => chooseList(option)}>
+                    {option}
+                  </ListItem>
+                );
+              })
+            : listOptions['uk-UKR'].map(option => {
+                return (
+                  <ListItem key={option} onClick={() => chooseList(option)}>
+                    {option}
+                  </ListItem>
+                );
+              })}
+        </List>
 
-      {!routeParams.type ? (userMovies && <UserFilteresListScheme onDelete={onDelete} movies={userMovies}>
-      </UserFilteresListScheme>) : <Outlet />}
-    </Container>
+        {!routeParams.type ? (
+          userMovies && (
+            <UserFilteresListScheme
+              onDelete={onDelete}
+              movies={userMovies}
+            ></UserFilteresListScheme>
+          )
+        ) : (
+          <Outlet />
+        )}
+      </Container>
+    )
   );
 };
 
