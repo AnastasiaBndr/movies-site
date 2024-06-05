@@ -57,15 +57,15 @@ const UserPage = () => {
       }
       case 'Кинуте': {
         navigate('dropped');
-        return 'favorite';
+        return 'dropped';
       }
       case 'Переглядаю': {
         navigate('watching');
-        return 'favorite';
+        return 'watching';
       }
       case 'Завершено': {
         navigate('finished');
-        return 'favorite';
+        return 'finished';
       }
       default:
         navigate(`${option.toLowerCase()}`);
